@@ -2,89 +2,90 @@
 <h1>AkiWeb</h1>
 </div>
 
-**中文** | [English](./README.en.md)
 
-## 简介
+**English** | [中文](./README.md)
+
+## Introduction
 
 大三下软件项目管理课程设计。
 
-## 特性
+## Feature
 
-- **最新技术栈**：使用 asdf 等前端前沿技术开发
-- **主题**：asdf
+- **asdf**: asdf
+- **asdf**: asdf
 
-## 预览
+## Preview
 
-- 在线预览地址： asdf
+- asdf
 
 
-## 准备
+## Preparation
 
-- [node](http://nodejs.org/) 和 [git](https://git-scm.com/) -项目开发环境
-- [Vite](https://vitejs.dev/) - 熟悉 vite 特性
-- [Vue3](https://v3.vuejs.org/) - 熟悉 Vue 基础语法
-- [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
-- [element-Plus](https://element-plus.org/) - ui 基本使用
+- asdf
+- asdf
+- asdf
+- asdf
+- asdf
 
-## 安装使用
+## Install and use
 
-- 获取项目代码
+- Get the project code
 
 ```bash
 git clone https://github.com/whitebiana/AkiWeb.git
 ```
 
-- 安装依赖
+- Installation dependencies
 
 ```bash
 npm install
 ```
 
-- 运行
+- run
 
 ```bash
 npm run dev
 ```
 
-- 打包
+- build
 
 ```bash
 npm run build
 ```
 
-## 如何贡献
+## How to contribute
 
-非常欢迎你的加入！[提一个 Issue]() 或者提交一个 Pull Request。
+You are very welcome to join！[Raise an issue](https://github.com/wuufeii/vue3-admin-vite/issues/new/choose) Or submit a Pull Request。
 
 **Pull Request:**
 
-1. Fork 代码!
-2. 创建自己的分支: `git checkout -b feat/xxxx`
-3. 提交你的修改: `git commit -am 'feat(function): add xxxxx'`
-4. 推送您的分支: `git push origin feat/xxxx`
-5. 提交`pull request`
+1. Fork code!
+2. Create your own branch: `git checkout -b feat/xxxx`
+3. Submit your changes: `git commit -am 'feat(function): add xxxxx'`
+4. Push your branch: `git push origin feat/xxxx`
+5. submit`pull request`
 
-## Git 贡献提交规范
+## Git Contribution submission specification
 
-- `feat` 增加新功能
-- `fix` 修复问题/BUG
-- `style` 代码风格相关无影响运行结果的
-- `perf` 优化/性能提升
-- `refactor` 重构
-- `revert` 撤销修改
-- `test` 测试相关
-- `docs` 文档/注释
-- `chore` 依赖更新/脚手架配置修改等
-- `workflow` 工作流改进
-- `ci` 持续集成
-- `types` 类型定义文件更改
-- `wip` 开发中
+- `feat` Add new features
+- `fix` Fix the problem/BUG
+- `style` The code style is related and does not affect the running result
+- `perf` Optimization/performance improvement
+- `refactor` Refactor
+- `revert` Undo edit
+- `test` Test related
+- `docs` Documentation/notes
+- `chore` Dependency update/scaffolding configuration modification etc.
+- `workflow` Workflow improvements
+- `ci` Continuous integration
+- `types` Type definition file changes
+- `wip` In development
 
-## 浏览器支持
+## Browser support
 
-本地开发推荐使用`Chrome 80+` 浏览器
+The `Chrome 80+` browser is recommended for local development
 
-支持现代浏览器, 不支持 IE
+Support modern browsers, not IE
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
