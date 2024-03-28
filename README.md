@@ -10,8 +10,7 @@
 
 ## 特性
 
-- **最新技术栈**：使用 asdf 等前端前沿技术开发
-- **主题**：asdf
+- **最新**：使用前沿的 [FSRS](https://github.com/open-spaced-repetition/fsrs4anki/wiki/ABC-of-FSRS) 间隔重复算法
 
 ## 预览
 
@@ -20,11 +19,17 @@
 
 ## 准备
 
-- [node](http://nodejs.org/) 和 [git](https://git-scm.com/) -项目开发环境
-- [Vite](https://vitejs.dev/) - 熟悉 vite 特性
-- [Vue3](https://v3.vuejs.org/) - 熟悉 Vue 基础语法
-- [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
-- [element-Plus](https://element-plus.org/) - ui 基本使用
+- 前端
+
+	- [node](http://nodejs.org/) 和 [git](https://git-scm.com/) -项目开发环境
+
+	- [Vite](https://vitejs.dev/) - 熟悉 vite 特性
+
+	- [Vue3](https://v3.vuejs.org/) - 熟悉 Vue 基础语法
+
+	- [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
+
+	- [element-Plus](https://element-plus.org/) - ui 基本使用
 
 ## 安装使用
 
