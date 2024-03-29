@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '基础布局',
+      name: 'basicLayout',
       component: () => import('@/layout/BasicLayout.vue'),
       children: [
         {
