@@ -10,9 +10,6 @@
           <component :is="Component" />
         </router-view>
       </a-layout-content>
-      <a-layout-footer class="footer">
-        <Footer />
-      </a-layout-footer>
     </a-layout>
   </div>
 </template>
@@ -32,28 +29,11 @@
       border-bottom: var(--color-border-2) 1px solid;
     }
 
-    .footer {
-      // height: 360px;
-      text-align: center;
+    .content {
+      width: 82%;
+      padding: 24px;
+      margin: 0 auto;
     }
   }
-}
-
-body[arco-theme="light"] .footer {
-  color: #fff;
-  background-color: #1a1a1a;
-}
-
-body[arco-theme="dark"] .footer {
-  background-color: var(--color-bg-1);
-  color: var(--color-text-1);
-}
-
-body[arco-theme="light"] .content {
-  background-color: var(--color-bg-2);
-}
-
-body[arco-theme="dark"] .content {
-  background-color: var(--color-bg-1);
 }
 </style>

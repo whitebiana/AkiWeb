@@ -7,5 +7,23 @@
     {
       "path": "./tsconfig.app.json"
     }
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "./src/**/*",
+    "./src/**/*.ts",
+    "./src/**/*.vue",
+    "./src/**/*.d.ts",
+    "./auto-imports.d.ts",
+    "./components.d.ts"
   ]
 }

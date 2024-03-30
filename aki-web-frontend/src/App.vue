@@ -7,4 +7,11 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+</style>

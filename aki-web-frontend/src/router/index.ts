@@ -27,6 +27,11 @@ const router = createRouter({
           path: '/decks/',
           name: '错题本',
           component: () => import('@/views/deck/index.vue')
+        },
+        {
+          path: '/study/:deckname/',
+          name: '复习页面',
+          component: () => import('@/views/study/index.vue')
         }
       ]
     }
