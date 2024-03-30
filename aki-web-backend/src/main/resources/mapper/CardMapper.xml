@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pub.akiwebbackend.mapper.CardMapper">
+
+    <resultMap id="BaseResultMap" type="pub.akiwebbackend.domain.entiry.Card">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="did" column="did" jdbcType="BIGINT"/>
+            <result property="data" column="data" jdbcType="VARCHAR"/>
+            <result property="ans" column="ans" jdbcType="VARCHAR"/>
+            <result property="tags" column="tags" jdbcType="VARCHAR"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
+            <result property="difficuty" column="difficuty" jdbcType="FLOAT"/>
+            <result property="stability" column="stability" jdbcType="FLOAT"/>
+            <result property="reps" column="reps" jdbcType="INTEGER"/>
+            <result property="lapses" column="lapses" jdbcType="INTEGER"/>
+            <result property="elapsed_days" column="elapsed_days" jdbcType="FLOAT"/>
+            <result property="scheduled_days" column="scheduled_days" jdbcType="INTEGER"/>
+            <result property="due" column="due" jdbcType="TIMESTAMP"/>
+            <result property="last_review" column="last_review" jdbcType="TIMESTAMP"/>
+            <result property="gmt_create" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmt_modified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,did,data,
+        ans,tags,state,
+        difficuty,stability,reps,
+        lapses,elapsed_days,scheduled_days,
+        due,last_review,gmt_create,
+        gmt_modified,is_deleted
+    </sql>
+</mapper>
