@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -30,19 +31,20 @@ public class Deck implements Serializable {
     /**
      * 创建时间
      */
-    private Date gmt_create;
+    private Date gmtCreate;
 
     /**
      * 修改时间
      */
-    private Date gmt_modified;
+    private Date gmtModified;
 
     /**
      * 是否删除
      */
     @TableLogic
-    private Integer is_deleted;
+    private Integer isDeleted;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

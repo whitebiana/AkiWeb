@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -70,12 +71,12 @@ public class Card implements Serializable {
     /**
      * 过去的天数
      */
-    private Double elapsed_days;
+    private Double elapsedDays;
 
     /**
      * 复习间隔时间(天)
      */
-    private Integer scheduled_days;
+    private Integer scheduledDays;
 
     /**
      * 过期时间点
@@ -85,24 +86,25 @@ public class Card implements Serializable {
     /**
      * 上一次复习的时间点
      */
-    private Date last_review;
+    private Date lastReview;
 
     /**
      * 创建时间
      */
-    private Date gmt_create;
+    private Date gmtCreate;
 
     /**
      * 修改时间
      */
-    private Date gmt_modified;
+    private Date gmtModified;
 
     /**
      * 是否删除
      */
     @TableLogic
-    private Integer is_deleted;
+    private Integer isDeleted;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

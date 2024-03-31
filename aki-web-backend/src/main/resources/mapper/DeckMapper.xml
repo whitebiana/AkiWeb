@@ -7,9 +7,9 @@
     <resultMap id="BaseResultMap" type="pub.akiwebbackend.domain.entiry.Deck">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="gmt_create" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmt_modified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">

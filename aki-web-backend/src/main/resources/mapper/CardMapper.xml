@@ -15,13 +15,13 @@
             <result property="stability" column="stability" jdbcType="FLOAT"/>
             <result property="reps" column="reps" jdbcType="INTEGER"/>
             <result property="lapses" column="lapses" jdbcType="INTEGER"/>
-            <result property="elapsed_days" column="elapsed_days" jdbcType="FLOAT"/>
-            <result property="scheduled_days" column="scheduled_days" jdbcType="INTEGER"/>
+            <result property="elapsedDays" column="elapsed_days" jdbcType="FLOAT"/>
+            <result property="scheduledDays" column="scheduled_days" jdbcType="INTEGER"/>
             <result property="due" column="due" jdbcType="TIMESTAMP"/>
-            <result property="last_review" column="last_review" jdbcType="TIMESTAMP"/>
-            <result property="gmt_create" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmt_modified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
+            <result property="lastReview" column="last_review" jdbcType="TIMESTAMP"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
