@@ -7,6 +7,8 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { DeckAddDTO } from './models/DeckAddDTO';
+export type { DeckEditDTO } from './models/DeckEditDTO';
 export type { R } from './models/R';
 
-export { TestControllerService } from './services/TestControllerService';
+export { Service } from './services/Service';

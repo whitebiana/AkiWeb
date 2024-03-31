@@ -9,7 +9,7 @@ use aki;
 -- card table
 create table if not exists card
 (
-    id              bigint unsigned primary key comment 'id',
+    id              bigint unsigned primary key auto_increment comment 'id',
     did             bigint unsigned not null comment 'deck id',
     data            text not null comment '正面',
     ans             text not null comment '答案',
@@ -31,7 +31,7 @@ create table if not exists card
 -- deck table
 create table if not exists deck
 (
-    id              bigint unsigned primary key comment 'id',
+    id              bigint unsigned primary key auto_increment comment 'id',
     name            varchar(255) not null comment '名称',
     gmt_create      datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     gmt_modified    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',

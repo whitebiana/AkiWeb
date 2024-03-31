@@ -18,7 +18,7 @@ public class Card implements Serializable {
      * id
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private String id;
 
     /**
      * deck id

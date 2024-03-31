@@ -7,8 +7,8 @@
           <a-dropdown position="bottom">
             <a-button>Actions</a-button>
             <template #content>
-              <a-doption>Rename</a-doption>
-              <a-doption>Delete</a-doption>
+              <a-doption @click="rename">Rename</a-doption>
+              <a-doption @click="remove">Delete</a-doption>
             </template>
           </a-dropdown>
         </template>
@@ -30,18 +30,24 @@
       </div>
     </a-col>
     <a-col flex="auto">
-      <a-pagination :total="50" />
+      <a-pagination
+        :total="pagination.total"
+        :page-size="pagination.pageSize"
+        simple
+        v-model:current="pagination.current"
+        @change="loadData"
+      />
     </a-col>
   </a-row>
 
   <a-modal
     v-model:visible="visible"
-    title="input DeckName"
+    title="input deckname"
     @cancel="handleCancel"
     @before-ok="handleBeforeOk"
   >
     <a-form :model="form">
-      <a-form-item field="deckName" label="deckName">
+      <a-form-item field="deckname" label="deckname">
         <a-input v-model="form.deckName" />
       </a-form-item>
     </a-form>
@@ -54,11 +60,12 @@ import { IconPlus } from "@arco-design/web-vue/es/icon";
 import { useRouter } from "vue-router";
 import {
   Notification,
+  PaginationProps,
   TableColumnData,
   type TableData,
 } from "@arco-design/web-vue";
 import axios from "axios";
-import { TestControllerService } from "@/api";
+import { Service } from "@/api";
 import { Deck } from "@/types/global";
 
 const show = ref(true);
@@ -73,7 +80,7 @@ const addDeck = () => {
 
 const visible = ref(false);
 const form = reactive({
-  deckName: "",
+  deckname: "",
 });
 
 //在此处提交牌组的信息
@@ -91,6 +98,12 @@ const handleCancel = () => {
 
 const decks = ref<Deck[]>([]);
 
+const pagination = ref<PaginationProps>({
+  current: 1,
+  pageSize: 1,
+  total: 1,
+});
+
 const handleCellClick = (
   record: TableData,
   column: TableColumnData,
@@ -100,11 +113,25 @@ const handleCellClick = (
 };
 
 const loadData = async () => {
-  const res = await TestControllerService.list();
+  const res = await Service.getDeckList(
+    pagination.value.current,
+    pagination.value.pageSize
+  );
 
   if (res.code === "00000") {
-    decks.value = res.data as Deck[];
+    decks.value = res.data.records;
+    pagination.value.current = Number(res.data.current);
+    pagination.value.pageSize = Number(res.data.size);
+    pagination.value.total = Number(res.data.total);
   } else Notification.error("获取牌组失败");
+};
+
+const rename = async () => {
+  console.log("rename");
+};
+
+const remove = async () => {
+  console.log("remove");
 };
 
 onMounted(async () => {

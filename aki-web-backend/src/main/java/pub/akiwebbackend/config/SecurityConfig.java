@@ -32,7 +32,7 @@ public class SecurityConfig {
                                 // "/assets/**", "/favicon.ico", "/images/**",
                                 // "/", "/index.html", "/error",
                                 // "/user/login", "/user/register", "/user/info", "/email/code/**"
-                                "/test/**"
+                                "/test/**", "/deck/**"
                         ).permitAll()
                         .anyRequest().authenticated()
         );
