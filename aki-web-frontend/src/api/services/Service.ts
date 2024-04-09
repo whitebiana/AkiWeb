@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CardAddDTO } from '../models/CardAddDTO';
 import type { DeckAddDTO } from '../models/DeckAddDTO';
 import type { DeckEditDTO } from '../models/DeckEditDTO';
 import type { R } from '../models/R';
@@ -9,6 +10,24 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class Service {
+    /**
+     * 文件上传
+     * @param formData
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static uploadFile(
+        formData?: {
+            file?: Blob;
+        },
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/file/upload',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+        });
+    }
     /**
      * 分页查询错题本列表
      * @param currentPage
@@ -74,6 +93,22 @@ export class Service {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/deck/add',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * 添加错题
+     * @param requestBody
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static addCard(
+        requestBody: CardAddDTO,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/card/add',
             body: requestBody,
             mediaType: 'application/json',
         });

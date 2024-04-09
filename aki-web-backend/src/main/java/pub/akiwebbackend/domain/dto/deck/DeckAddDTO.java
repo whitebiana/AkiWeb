@@ -6,6 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
+ * 添加错题本
  * @author cym
  * @date 2024/3/31
  */

@@ -12,6 +12,23 @@ spring:
       name: admin
       password: asdf
 
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    static-path-pattern: /**
+
+  web:
+    resources:
+      # fix: 图片上传成功后访问404，无法回显
+      # TODO 在linux上要改路径
+      static-locations: file:D:/dev/project/AkiWeb/aki-web-backend/src/main/resources/static/
+  #      - classpath:/META-INF/resources/
+  #      - classpath:/resources/
+  #      - classpath:/static/
+  #      - classpath:/public/
+  #      - classpath:/webapp/
+
 # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

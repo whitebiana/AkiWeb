@@ -52,6 +52,7 @@ public class DeckController {
         // 保存对象
         boolean res = deckService.save(deck);
         if (!res) throw new BusinessException(ErrorCode.SERVICE_ERROR_C0300);
+
         return R.success(deck.getId());
     }
 
@@ -66,6 +67,7 @@ public class DeckController {
         // 直接删
         boolean res = deckService.removeById(id);
         if (!res) throw new BusinessException(ErrorCode.USER_ERROR_A0404);
+
         return R.success();
     }
 

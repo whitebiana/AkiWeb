@@ -11,8 +11,11 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@vavt/v3-extension": "^1.1.2",
     "axios": "^1.6.8",
     "fsrs.js": "^1.2.2",
+    "markdown-it-mark": "^4.0.0",
+    "md-editor-v3": "^4.13.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

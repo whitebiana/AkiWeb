@@ -7,8 +7,8 @@
           <a-dropdown position="bottom">
             <a-button>Actions</a-button>
             <template #content>
-              <a-doption @click="rename">Rename</a-doption>
-              <a-doption @click="remove">Delete</a-doption>
+              <a-doption>Rename</a-doption>
+              <a-doption @click="handleDelete(record.id)"> Delete </a-doption>
             </template>
           </a-dropdown>
         </template>
@@ -48,7 +48,7 @@
   >
     <a-form :model="form">
       <a-form-item field="deckname" label="deckname">
-        <a-input v-model="form.deckName" />
+        <a-input v-model="form.deckname" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -59,6 +59,7 @@ import { reactive, ref } from "vue";
 import { IconPlus } from "@arco-design/web-vue/es/icon";
 import { useRouter } from "vue-router";
 import {
+  Modal,
   Notification,
   PaginationProps,
   TableColumnData,
@@ -100,7 +101,7 @@ const decks = ref<Deck[]>([]);
 
 const pagination = ref<PaginationProps>({
   current: 1,
-  pageSize: 1,
+  pageSize: 10,
   total: 1,
 });
 
@@ -130,8 +131,19 @@ const rename = async () => {
   console.log("rename");
 };
 
-const remove = async () => {
-  console.log("remove");
+const handleDelete = async (id: string) => {
+  Modal.warning({
+    title: "Warning Notification",
+    content: "Are you sure you want to delete?",
+    simple: false,
+    hideCancel: false,
+    onBeforeOk: (
+      done: (closed: boolean) => void
+    ): boolean | void | Promise<boolean | void> => {
+      Service.deleteDeck(id).then((res) => {});
+      // done(true);
+    },
+  });
 };
 
 onMounted(async () => {

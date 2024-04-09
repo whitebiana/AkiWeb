@@ -29,10 +29,10 @@ public class SecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(
                                 "/doc.html", "/swagger-ui/**", "/webjars/**", "/v3/**",
-                                // "/assets/**", "/favicon.ico", "/images/**",
+                                "/assets/**", "/favicon.ico", "/images/**",
                                 // "/", "/index.html", "/error",
                                 // "/user/login", "/user/register", "/user/info", "/email/code/**"
-                                "/test/**", "/deck/**"
+                                "/test/**", "/deck/**", "/card/**", "/file/upload"
                         ).permitAll()
                         .anyRequest().authenticated()
         );

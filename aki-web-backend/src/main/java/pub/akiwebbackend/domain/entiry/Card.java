@@ -23,7 +23,7 @@ public class Card implements Serializable {
     /**
      * deck id
      */
-    private Long did;
+    private String did;
 
     /**
      * 正面
