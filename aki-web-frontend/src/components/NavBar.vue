@@ -19,8 +19,7 @@
         }"
       />
     </a-menu-item>
-    <a-menu-item key="/">首页</a-menu-item>
-    <a-menu-item key="/decks/">错题本</a-menu-item>
+    <a-menu-item key="/">错题本</a-menu-item>
     <a-menu-item key="/add/">添加</a-menu-item>
     <a-menu-item key="/search/">搜索</a-menu-item>
   </a-menu>

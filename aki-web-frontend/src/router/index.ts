@@ -9,11 +9,6 @@ const router = createRouter({
       component: () => import('@/layout/BasicLayout.vue'),
       children: [
         {
-          path: '/',
-          name: '首页',
-          component: () => import('@/views/home/index.vue')
-        },
-        {
           path: '/search/',
           name: '搜索',
           component: () => import('@/views/search/index.vue')
@@ -24,7 +19,7 @@ const router = createRouter({
           component: () => import('@/views/add/index.vue')
         },
         {
-          path: '/decks/',
+          path: '/',
           name: '错题本',
           component: () => import('@/views/deck/index.vue')
         },
