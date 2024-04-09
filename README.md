@@ -29,7 +29,7 @@
 
 	- [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
 
-	- [element-Plus](https://element-plus.org/) - ui 基本使用
+	- [Arco Design](https://arco.design/) - ui 基本使用
 
 ## 安装使用
 
