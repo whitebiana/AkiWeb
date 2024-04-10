@@ -5,13 +5,17 @@
     :style="{ width: '100%' }"
     @submit="handleSubmit"
   >
-    <a-form-item field="deckname" label="错题本名称">
-      <a-input
+    <a-form-item field="deckname" label="错题本">
+      <a-select
         v-model="form.deckname"
-        placeholder="please enter your post..."
+        :style="{ width: '360px' }"
+        placeholder="Please select ..."
+        allow-clear
+        scrollbar
+        :options="deckOptions"
       />
     </a-form-item>
-    <a-form-item field="data" label="正面">
+    <a-form-item field="data" label="题目">
       <MdEditor
         v-model="form.data"
         previewTheme="github"
@@ -38,7 +42,7 @@
         </template>
       </MdEditor>
     </a-form-item>
-    <a-form-item field="ans" label="背面">
+    <a-form-item field="ans" label="答案">
       <MdEditor
         v-model="form.ans"
         previewTheme="github"
@@ -75,12 +79,12 @@
         allow-clear
         scrollbar
       >
-        <a-option>Beijing</a-option>
-        <a-option>Shanghai</a-option>
-        <a-option>Guangzhou</a-option>
-        <a-option>Shenzhen</a-option>
-        <a-option>Chengdu</a-option>
-        <a-option>Wuhan</a-option>
+        <a-option>标签 1</a-option>
+        <a-option>标签 2</a-option>
+        <a-option>标签 3</a-option>
+        <a-option>标签 4</a-option>
+        <a-option>标签 5</a-option>
+        <a-option>标签 6</a-option>
       </a-select>
     </a-form-item>
 
@@ -101,6 +105,7 @@ import "@vavt/v3-extension/lib/asset/style.css";
 // import '@vavt/v3-extension/lib/asset/Emoji.css';
 import { CardAddDTO, Service } from "@/api";
 import { Message, Notification } from "@arco-design/web-vue";
+import { Deck } from "@/types/global";
 
 config({
   editorConfig: {
@@ -188,6 +193,18 @@ const onUploadImg = async (files: File[], callback) => {
   // 上传图片事件，弹窗会等待上传结果，务必将上传后的 urls 作为 callback 入参回传。
   callback(res);
 };
+
+const deckOptions = ref([]);
+
+onMounted(async () => {
+  const res = await Service.list();
+  if (res.code === "00000") {
+    const decks = res.data as Deck[];
+    deckOptions.value = decks.map((deck) => {
+      return deck.name;
+    });
+  } else Message.error(res.msg);
+});
 </script>
 
 <style lang="less" scoped></style>

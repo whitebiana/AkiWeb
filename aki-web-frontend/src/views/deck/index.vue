@@ -20,7 +20,7 @@
   <a-row>
     <a-col flex="200">
       <div>
-        <a-button type="outline" @click="addDeck">
+        <a-button type="outline" @click="visible = true">
           <template #icon>
             <icon-plus />
           </template>
@@ -44,11 +44,11 @@
     v-model:visible="visible"
     title="input deckname"
     @cancel="handleCancel"
-    @before-ok="handleBeforeOk"
+    @ok="addDeck"
   >
     <a-form :model="form">
-      <a-form-item field="deckname" label="deckname">
-        <a-input v-model="form.deckname" />
+      <a-form-item field="name" label="错题本名称">
+        <a-input v-model="form.name" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -59,6 +59,7 @@ import { reactive, ref } from "vue";
 import { IconPlus } from "@arco-design/web-vue/es/icon";
 import { useRouter } from "vue-router";
 import {
+  Message,
   Modal,
   Notification,
   PaginationProps,
@@ -66,7 +67,7 @@ import {
   type TableData,
 } from "@arco-design/web-vue";
 import axios from "axios";
-import { Service } from "@/api";
+import { DeckAddDTO, Service } from "@/api";
 import { Deck } from "@/types/global";
 
 const show = ref(true);
@@ -75,24 +76,19 @@ const show = ref(true);
 const router = useRouter();
 
 //使用抽屉式的添加方法
-const addDeck = () => {
-  visible.value = true;
+const addDeck = async () => {
+  const res = await Service.addDeck(form);
+  if (res.code === "00000") {
+    await loadData();
+    Notification.success("添加成功！！");
+  } else Notification.error(res.msg);
 };
 
 const visible = ref(false);
-const form = reactive({
-  deckname: "",
+const form: DeckAddDTO = reactive({
+  name: "",
 });
 
-//在此处提交牌组的信息
-const handleBeforeOk = (done: any) => {
-  console.log(form);
-  window.setTimeout(() => {
-    done();
-    // prevent close
-    // done(false)
-  }, 3000);
-};
 const handleCancel = () => {
   visible.value = false;
 };
@@ -126,7 +122,6 @@ const loadData = async () => {
     pagination.value.total = Number(res.data.total);
   } else Notification.error("获取牌组失败");
 };
-
 const rename = async () => {
   console.log("rename");
 };
@@ -140,7 +135,16 @@ const handleDelete = async (id: string) => {
     onBeforeOk: (
       done: (closed: boolean) => void
     ): boolean | void | Promise<boolean | void> => {
-      Service.deleteDeck(id).then((res) => {});
+      Service.deleteDeck(id).then(async (res) => {
+        if (res.code === "00000") {
+          Message.success("删除成功！！");
+          await loadData();
+          done(true);
+        } else {
+          Message.error(res.msg);
+          done(false);
+        }
+      });
       // done(true);
     },
   });

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class DeckController {
     @PreAuthorize("hasAuthority('admin')")
     @PostMapping("/add")
     public R addDeck(@RequestBody DeckAddDTO deckAddDTO) {
-        if (deckAddDTO == null || deckAddDTO.getName() == null) {
+        if (deckAddDTO == null || deckAddDTO.getName() == null || StringUtils.isBlank(deckAddDTO.getName())) {
             throw new BusinessException(ErrorCode.USER_ERROR_A0400);
         }
 
