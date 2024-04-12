@@ -1,7 +1,7 @@
 <template>
   <a-menu
     mode="horizontal"
-    :default-selected-keys="['/']"
+    :selected-keys="selectedKeys"
     @menu-item-click="handleMenuClick"
   >
     <a-menu-item
@@ -28,7 +28,16 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
+const route = useRoute();
+
 const router = useRouter();
+
+const selectedKeys = ref([route.path]);
+
+// 路由跳转后触发选中样式;
+router.afterEach((to, from) => {
+  selectedKeys.value = [to.path];
+});
 
 const handleMenuClick = (key: string) => {
   router.push(key);
