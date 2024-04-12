@@ -13,6 +13,7 @@
   "dependencies": {
     "@vavt/v3-extension": "^1.1.2",
     "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
     "fsrs.js": "^1.2.2",
     "markdown-it-mark": "^4.0.0",
     "md-editor-v3": "^4.13.0",

@@ -19,6 +19,11 @@ const router = createRouter({
           component: () => import('@/views/add/index.vue')
         },
         {
+          path: '/edit/:cid(\\d+)/',
+          name: '编辑错题',
+          component: () => import('@/views/edit/index.vue')
+        },
+        {
           path: '/',
           name: '错题本',
           component: () => import('@/views/deck/index.vue')

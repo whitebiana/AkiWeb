@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CardAddDTO } from '../models/CardAddDTO';
+import type { CardQueryDTO } from '../models/CardQueryDTO';
 import type { DeckAddDTO } from '../models/DeckAddDTO';
 import type { DeckEditDTO } from '../models/DeckEditDTO';
 import type { R } from '../models/R';
@@ -93,6 +94,21 @@ export class Service {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/deck/add',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static getCardList(
+        requestBody: CardQueryDTO,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/card/list',
             body: requestBody,
             mediaType: 'application/json',
         });
