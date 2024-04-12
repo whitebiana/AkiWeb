@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pub.akiwebbackend.common.ErrorCode;
 import pub.akiwebbackend.common.R;
 import pub.akiwebbackend.domain.dto.card.CardAddDTO;
+import pub.akiwebbackend.domain.dto.card.CardQueryDTO;
 import pub.akiwebbackend.domain.entiry.Card;
 import pub.akiwebbackend.domain.entiry.Deck;
 import pub.akiwebbackend.exception.BusinessException;
@@ -64,5 +65,28 @@ public class CardController {
         if (!res) throw new BusinessException(ErrorCode.SERVICE_ERROR_C0300);
 
         return R.success(card.getId());
+    }
+
+
+    /**
+     * 获取错题列表
+     * @param cardQueryDTO 搜索参数
+     * @return 错题列表
+     */
+    @PostMapping("/list")
+    public R getCardList(@RequestBody CardQueryDTO cardQueryDTO) {
+        if (cardQueryDTO == null || cardQueryDTO.getCardnameOrDeckname() == null) {
+            throw new BusinessException(ErrorCode.USER_ERROR_A0400);
+        }
+
+        String cardnameOrDeckname = cardQueryDTO.getCardnameOrDeckname();
+
+        // 最多返回100条数据
+        // if (StringUtils.isBlank(cardnameOrDeckname)) {
+        //     return R.success(cardService.list(new LambdaQueryWrapper<Card>().last("limit 100")));
+        // }
+
+
+        return null;
     }
 }
