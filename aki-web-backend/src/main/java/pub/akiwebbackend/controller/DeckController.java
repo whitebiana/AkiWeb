@@ -1,5 +1,6 @@
 package pub.akiwebbackend.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -82,6 +83,14 @@ public class DeckController {
     public R renameDeck(@RequestBody DeckEditDTO deckEditDTO) {
         if (deckEditDTO == null || deckEditDTO.getId() == null) {
             throw new BusinessException(ErrorCode.USER_ERROR_A0400);
+        }
+
+        if (StringUtils.isBlank(deckEditDTO.getName())) {
+            throw new BusinessException(ErrorCode.USER_ERROR_A0400, "名称不能为空");
+        }
+
+        if (deckService.exists(new LambdaQueryWrapper<Deck>().eq(Deck::getName, deckEditDTO.getName()))) {
+            throw new BusinessException(ErrorCode.USER_ERROR_A0400, "错题本已存在");
         }
 
         // 构建对象
