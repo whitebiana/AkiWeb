@@ -1,10 +1,5 @@
 <template>
-  <a-form
-    :model="form"
-    auto-label-width
-    :style="{ width: '100%' }"
-    @submit="handleSubmit"
-  >
+  <a-form :model="form" auto-label-width @submit="handleSubmit">
     <a-form-item field="deckname" label="错题本">
       <a-select
         v-model="form.deckname"
@@ -24,7 +19,6 @@
         :tableShape="[16, 8]"
         @onUploadImg="onUploadImg"
         @onError="onError"
-        @onSave="onSave"
       >
         <template #defToolbars>
           <Mark>
@@ -51,7 +45,6 @@
         :tableShape="[16, 8]"
         @onUploadImg="onUploadImg"
         @onError="onError"
-        @onSave="onSave"
       >
         <template #defToolbars>
           <Mark>
@@ -166,13 +159,6 @@ const handleSubmit = async () => {
   if (res.code === "00000") {
     Notification.success("添加成功！！");
   } else Notification.error(res.msg);
-};
-
-const onSave = (v: string, h: Promise<string>) => {
-  // console.log(v);
-  // h.then((html) => {
-  //   console.log(html);
-  // });
 };
 
 const onError = (err) => {
