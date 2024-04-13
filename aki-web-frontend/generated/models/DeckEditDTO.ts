@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CardQueryDTO = {
-    searchCommand?: string;
+export type DeckEditDTO = {
+    id?: string;
+    name?: string;
 };
 
