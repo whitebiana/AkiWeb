@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <a-layout class="layout">
-      <a-affix :offsetTop="0">
+      <a-affix :offsetTop="0" style="width: calc(100% - 1px)">
         <a-layout-header class="header">
           <NavBar />
         </a-layout-header>
