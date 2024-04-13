@@ -32,9 +32,9 @@ spring:
 # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.27.184.11:3306/aki
+    url: jdbc:mysql://localhost:3306/aki
     username: root
-    password: 123456
+    password: 123456789
 
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
