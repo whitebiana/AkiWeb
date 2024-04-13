@@ -12,5 +12,5 @@ public class CardQueryDTO {
     /**
      * 错题本名称或错题名称
      */
-    private String cardnameOrDeckname;
+    private String searchCommand;
 }
