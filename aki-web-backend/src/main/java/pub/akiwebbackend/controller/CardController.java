@@ -22,6 +22,7 @@ import pub.akiwebbackend.exception.BusinessException;
 import pub.akiwebbackend.service.CardService;
 import pub.akiwebbackend.service.DeckService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -85,71 +86,48 @@ public class CardController {
 
         String searchCommand = cardQueryDTO.getSearchCommand();
 
-        //搜索逻辑 先将命令拆分成数组 然后使用拼接条件查询
-        //限制最多查询100条
+        // 搜索逻辑 先将命令拆分成数组 然后使用拼接条件查询
+        // 限制最多查询100条
         String LIMIT = "limit 100";
 
-
-        //然后将命令拆分为数组 将以“：”为分割将命令差分为两部分
-        String[] parts = searchCommand.split(":");
-
-        //数组的大小不超过2，如果数组大小为1则返回空值
-        if (parts.length > 2){
-            throw new BusinessException(ErrorCode.ERROR, "只能输入一次" +" : ");
-        }
-        if (parts.length == 1 && parts[0].equals("deck")){
-            System.out.println("并没有输入错题本");
-            return null;
-        }
-
-        //1.输入空的值就搜索所有的卡片：限制显示100条
+        // 1.输入空的值就搜索所有的卡片：限制显示100条
          if (StringUtils.isBlank(searchCommand)) {
-             System.out.println("111");
              return R.success(cardService.list(new LambdaQueryWrapper<Card>().last(LIMIT)));
          }
-         //1.2输入的是题目的名称直接查询得到并返回使用queryWrapper拼接查询
-        //只有第一个参数不是deck:的时候才进入这个查询中以免多次查询数据库
-        if (!parts[0].equals("deck")){//这里已经排除掉格式不对的问题了
+
+        // 2.前缀一定是"deck:"，如果是空值或者是其他的乱输入就返回空
+        if (searchCommand.startsWith("deck:")) {
+            String deckName = searchCommand.substring(5);
+
+            if (StringUtils.isBlank(deckName)) { // deck:
+                return R.success(new ArrayList<>());
+            } else { // deck:xxxxx
+                // 创建查询条件
+                QueryWrapper<Deck> deckQueryWrapper = new QueryWrapper<>();
+                // *注：错题本是唯一的不能使用模糊查询
+                deckQueryWrapper.eq("name",deckName);
+                Deck deck = deckService.getOne(deckQueryWrapper);
+
+                if ( deck == null ){
+                    return R.success(new ArrayList<>());
+                }
+
+                // 3.返回该错题本的所有题目
+                // 获取到deck的id
+                String deckId = deck.getId();
+                // 创建查询条件
+                QueryWrapper<Card> cardQueryWrapper = new QueryWrapper<>();
+                cardQueryWrapper.eq("did",deckId).last(LIMIT);
+                // 查询该错题本的所有题目，超过一百条要冲会员
+                List<Card> cardList = cardService.list(cardQueryWrapper);
+                return R.success(cardList);
+            }
+        } else { // 输入的是题目的名称直接查询得到并返回使用queryWrapper拼接查询
             //创建查询条件
             QueryWrapper<Card> wrapper = new QueryWrapper<>();
             wrapper.like("data",searchCommand).last(LIMIT);
             List<Card> card = cardService.list(wrapper);
-            if (card != null){
-                return R.success(card);
-            }
-            throw new BusinessException(ErrorCode.ERROR, "不存在这个错题");
+            return R.success(card);
         }
-
-        //2.前缀一定是"deck:"，如果是空值或者是其他的乱输入就返回空（1.2）已经解决
-        /**
-         * 返回为空的情况：
-         * 1)deck:的后面出现不存在的deck
-         *注：错题本是唯一的不能使用模糊查询
-          */
-        if (!StringUtils.isBlank(parts[1])){
-            //错题本不能为空否组返回空
-            //获取错题本名称
-            String deckName = parts[1];
-            //创建查询条件
-            QueryWrapper<Deck> deckQueryWrapper = new QueryWrapper<>();
-            deckQueryWrapper.eq("name",deckName);
-            Deck deck = deckService.getOne(deckQueryWrapper);
-
-            if ( deck == null ){
-                throw new BusinessException(ErrorCode.ERROR, "不存在这个错题本");
-            }
-
-            //3.返回该错题本的所有题目
-            //获取到deck的id
-            String deckId = deck.getId();
-            //创建查询条件
-            QueryWrapper<Card> cardQueryWrapper = new QueryWrapper<>();
-            cardQueryWrapper.eq("did",deckId);
-            //查询该错题本的所有题目，超过一百条要冲会员 暂时免费添加过百
-            List<Card> cardList = cardService.list(cardQueryWrapper);
-            return R.success(cardList);
-        }
-
-        return null;
     }
 }
