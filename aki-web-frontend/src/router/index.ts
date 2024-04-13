@@ -29,10 +29,15 @@ const router = createRouter({
           component: () => import('@/views/deck/index.vue')
         },
         {
-          path: '/study/:deckname/',
+          path: '/study/',
           name: '复习页面',
           component: () => import('@/views/study/index.vue')
-        }
+        },
+        {
+          path: '/statistic/',
+          name: '数据统计',
+          component: () => import('@/views/statistic/index.vue')
+        },
       ]
     }
   ]

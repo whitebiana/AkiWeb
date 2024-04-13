@@ -22,6 +22,7 @@
     <a-menu-item key="/">错题本</a-menu-item>
     <a-menu-item key="/add/">添加</a-menu-item>
     <a-menu-item key="/search/">搜索</a-menu-item>
+    <a-menu-item key="/statistic/">统计</a-menu-item>
   </a-menu>
 </template>
 

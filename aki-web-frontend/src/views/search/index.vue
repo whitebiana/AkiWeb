@@ -25,13 +25,6 @@
 import { CardQueryDTO } from "@/api";
 import { Card } from "@/types/global";
 import { Modal } from "@arco-design/web-vue";
-import dayjs from "dayjs";
-import * as fsrsJs from "fsrs.js";
-// let fsrs = new fsrsJs.FSRS();
-// let card = new fsrsJs.Card();
-// let rating = fsrsJs.Rating;
-// let state = fsrsJs.State;
-// console.log(fsrs.repeat(card, new Date()));
 
 const router = useRouter();
 
