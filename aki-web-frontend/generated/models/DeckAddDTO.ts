@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CardQueryDTO = {
-    searchCommand?: string;
+export type DeckAddDTO = {
+    name?: string;
 };
 

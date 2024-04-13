@@ -2,7 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CardQueryDTO = {
-    searchCommand?: string;
+export type R = {
+    code?: string;
+    msg?: string;
+    data?: Record<string, any>;
 };
 

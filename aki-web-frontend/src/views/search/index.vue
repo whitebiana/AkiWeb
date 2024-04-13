@@ -1,7 +1,7 @@
 <template>
   <h1>Search</h1>
   <a-space>
-    <a-input v-model="form.cardnameOrDeckname" size="large" />
+    <a-input v-model="form.searchCommand" size="large" />
     <a-button type="primary" @click="search">Search</a-button>
   </a-space>
   <br />
@@ -22,77 +22,68 @@
 </template>
 
 <script setup lang="ts">
-import { CardQueryDTO } from "@/api";
+import {CardQueryDTO, Service} from "@/api";
 import { Card } from "@/types/global";
-import { Modal } from "@arco-design/web-vue";
+import {Modal, Notification} from "@arco-design/web-vue";
+import {reactive, ref} from "vue";
 
 const router = useRouter();
 
 const form: CardQueryDTO = reactive({
-  cardnameOrDeckname: "deck:current",
+  searchCommand: "deck:current",
 });
 
-const cards = ref<Card[]>([
-  {
-    id: "1",
-    did: "1",
-    data: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    ans: "aaa",
-    tags: "aaa",
-    state: 0,
-    difficuty: 0,
-    stability: 0,
-    reps: 0,
-    lapess: 0,
-    elapsedDays: 0,
-    scheduledDays: 0,
-    due: "2018-04-04T16:00:00.000Z",
-    lastReview: "2018-04-04T16:00:00.000Z",
-    gmtCreate: "2018-04-04T16:00:00.000Z",
-    gmtModified: "2018-04-04T16:00:00.000Z",
-    isDeleted: 0,
-  },
-  {
-    id: "2",
-    did: "2",
-    data: "bbb",
-    ans: "bbb",
-    tags: "bbb",
-    state: 0,
-    difficuty: 0,
-    stability: 0,
-    reps: 0,
-    lapess: 0,
-    elapsedDays: 0,
-    scheduledDays: 0,
-    due: "2018-04-04T16:00:00.000Z",
-    lastReview: "2018-04-04T16:00:00.000Z",
-    gmtCreate: "2018-04-04T16:00:00.000Z",
-    gmtModified: "2018-04-04T16:00:00.000Z",
-    isDeleted: 0,
-  },
-  {
-    id: "3",
-    did: "3",
-    data: "ccc",
-    ans: "ccc",
-    tags: "ccc",
-    state: 0,
-    difficuty: 0,
-    stability: 0,
-    reps: 0,
-    lapess: 0,
-    elapsedDays: 0,
-    scheduledDays: 0,
-    due: "2018-04-04T16:00:00.000Z",
-    lastReview: "2018-04-04T16:00:00.000Z",
-    gmtCreate: "2018-04-04T16:00:00.000Z",
-    gmtModified: "2018-04-04T16:00:00.000Z",
-    isDeleted: 0,
-  },
-]);
+//const cards = ref<Card[]>(
+  // {
+  //   id: "1",
+  //   did: "1",
+  //   data: "aaaaaaaaaaaaaa",
+  //   ans: "aaa",
+  //   tags: "aaa",
+  //   state: 0,
+  //   difficuty: 0,
+  //   stability: 0,
+  //   reps: 0,
+  //   lapess: 0,
+  //   elapsedDays: 0,
+  //   scheduledDays: 0,
+  //   due: "2018-04-04T16:00:00.000Z",
+  //   lastReview: "2018-04-04T16:00:00.000Z",
+  //   gmtCreate: "2018-04-04T16:00:00.000Z",
+  //   gmtModified: "2018-04-04T16:00:00.000Z",
+  //   isDeleted: 0,
+  // },
+  // {
+  //   id: "3",
+  //   did: "3",
+  //   data: "ccc",
+  //   ans: "ccc",
+  //   tags: "ccc",
+  //   state: 0,
+  //   difficuty: 0,
+  //   stability: 0,
+  //   reps: 0,
+  //   lapess: 0,
+  //   elapsedDays: 0,
+  //   scheduledDays: 0,
+  //   due: "2018-04-04T16:00:00.000Z",
+  //   lastReview: "2018-04-04T16:00:00.000Z",
+  //   gmtCreate: "2018-04-04T16:00:00.000Z",
+  //   gmtModified: "2018-04-04T16:00:00.000Z",
+  //   isDeleted: 0,
+  // },
+//);
+const cards = ref([])as any;
 
-const search = () => {};
+
+const search = async () => {
+   const res = await Service.getCardList(form)
+  if (res.code === "00000") {
+    cards.value = res.data;
+     console.log(cards.value)
+  } else Notification.error(res.msg)
+
+};
 
 const edit = (id: string) => {
   router.push(`/edit/${id}/`);
