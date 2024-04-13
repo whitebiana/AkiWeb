@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <a-layout class="layout">
-      <a-layout-header class="header">
-        <NavBar />
-      </a-layout-header>
+      <a-affix :offsetTop="0">
+        <a-layout-header class="header">
+          <NavBar />
+        </a-layout-header>
+      </a-affix>
       <a-layout-content class="content">
         <router-view v-slot="{ Component }">
           <!-- <transition> -->
