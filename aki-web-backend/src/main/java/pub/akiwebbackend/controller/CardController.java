@@ -1,5 +1,6 @@
 package pub.akiwebbackend.controller;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
@@ -9,10 +10,13 @@ import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 import pub.akiwebbackend.common.ErrorCode;
 import pub.akiwebbackend.common.R;
 import pub.akiwebbackend.domain.dto.card.CardAddDTO;
+import pub.akiwebbackend.domain.dto.card.CardEditDTO;
 import pub.akiwebbackend.domain.dto.card.CardQueryDTO;
+import pub.akiwebbackend.domain.dto.card.CardUpdateDTO;
 import pub.akiwebbackend.domain.entiry.Card;
 import pub.akiwebbackend.domain.entiry.Deck;
 import pub.akiwebbackend.exception.BusinessException;
@@ -68,6 +72,11 @@ public class CardController {
         return R.success(card.getId());
     }
 
+    @PostMapping("/{id}")
+    @Operation(summary = "查询一条错题")
+    public R getCard(@PathVariable String id){
+        return R.success(cardService.getById(id));
+    }
 
     /**
      * 获取错题列表
@@ -136,11 +145,42 @@ public class CardController {
     @Operation(summary = "删除错题")
     @PostMapping("/delete/{id}")
     public R deleteCard(@PathVariable String id){
-        System.out.println("id:### "+id);
         //直接删除
         boolean isRemove = cardService.removeById(id);
         if (!isRemove) throw new BusinessException(ErrorCode.USER_ERROR_A0404);
         return R.success();
     }
-    
+
+    /**
+     * 复习的时候更新错题
+     * @param cardUpdateDTO
+     * @return
+     */
+    @Operation(summary = "更新复习的错题数据")
+    @PostMapping("/update")
+    public R updateCard(@RequestBody CardUpdateDTO cardUpdateDTO){
+        Card card = new Card();
+        BeanUtils.copyProperties(cardUpdateDTO,card);
+        boolean isUpdate = cardService.updateById(card);
+        if (!isUpdate) throw new BusinessException(ErrorCode.SERVICE_ERROR_C0300);
+        return R.success("数据跟新成功");
+    }
+
+    /**
+     * 更新错题
+     * @param cardEditDTO
+     * @return
+     */
+    @Operation(summary = "编辑错题数据")
+    @PostMapping("/edit")
+    public R editCard(@RequestBody CardEditDTO cardEditDTO){
+        Card card = new Card();
+        BeanUtils.copyProperties(cardEditDTO,card);
+        card.setTags(new Gson().toJson(cardEditDTO.getTags()));
+        boolean isUpdate = cardService.updateById(card);
+        if (!isUpdate) throw new BusinessException(ErrorCode.SERVICE_ERROR_C0300);
+        return R.success();
+    }
+
+
 }
