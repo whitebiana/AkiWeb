@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pub.akiwebbackend.common.ErrorCode;
 import pub.akiwebbackend.common.R;
 import pub.akiwebbackend.domain.dto.card.CardAddDTO;
@@ -130,4 +127,20 @@ public class CardController {
             return R.success(card);
         }
     }
+
+    /**
+     * 删除单个错题
+     * @param id 传入要删除的错题id
+     * @return
+     */
+    @Operation(summary = "删除错题")
+    @PostMapping("/delete/{id}")
+    public R deleteCard(@PathVariable String id){
+        System.out.println("id:### "+id);
+        //直接删除
+        boolean isRemove = cardService.removeById(id);
+        if (!isRemove) throw new BusinessException(ErrorCode.USER_ERROR_A0404);
+        return R.success();
+    }
+    
 }

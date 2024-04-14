@@ -115,6 +115,23 @@ export class Service {
         });
     }
     /**
+     * 删除错题
+     * @param id
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static deleteCard(
+        id: string,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/card/delete/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
      * 添加错题
      * @param requestBody
      * @returns R OK
