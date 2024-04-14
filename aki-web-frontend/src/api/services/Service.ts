@@ -99,6 +99,7 @@ export class Service {
         });
     }
     /**
+     * 搜索错题
      * @param requestBody
      * @returns R OK
      * @throws ApiError
