@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import {CardQueryDTO, Service} from "@/api";
 import { Card } from "@/types/global";
-import {Modal, Notification} from "@arco-design/web-vue";
+import {Message, Modal, Notification} from "@arco-design/web-vue";
 import {reactive, ref} from "vue";
 
 const router = useRouter();
@@ -98,16 +98,16 @@ const remove = (id: string) => {
     onBeforeOk: (
       done: (closed: boolean) => void
     ): boolean | void | Promise<boolean | void> => {
-      // Service.deleteDeck(id).then(async (res) => {
-      //   if (res.code === "00000") {
-      //     Message.success("删除成功！！");
-      //     await loadData();
-      //     done(true);
-      //   } else {
-      //     Message.error(res.msg);
-      //     done(false);
-      //   }
-      // });
+      Service.deleteCard(id).then(async (res) => {
+        if (res.code === "00000") {
+          Message.success("删除成功");
+          await search();
+          done(true);
+        } else {
+          Message.error(res.msg);
+          done(false);
+        }
+      });
       done(true);
     },
   });
