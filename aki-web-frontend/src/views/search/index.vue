@@ -73,13 +73,13 @@ const form: CardQueryDTO = reactive({
   //   isDeleted: 0,
   // },
 //);
-const cards = ref([])as any;
+const cards = ref<Card[]>([]);
 
 
 const search = async () => {
    const res = await Service.getCardList(form)
   if (res.code === "00000") {
-    cards.value = res.data;
+    cards.value = res.data as Card[];
      console.log(cards.value)
   } else Notification.error(res.msg)
 

@@ -8,7 +8,9 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { CardAddDTO } from './models/CardAddDTO';
+export type { CardEditDTO } from './models/CardEditDTO';
 export type { CardQueryDTO } from './models/CardQueryDTO';
+export type { CardUpdateDTO } from './models/CardUpdateDTO';
 export type { DeckAddDTO } from './models/DeckAddDTO';
 export type { DeckEditDTO } from './models/DeckEditDTO';
 export type { R } from './models/R';

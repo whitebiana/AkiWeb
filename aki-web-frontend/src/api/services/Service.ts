@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CardAddDTO } from '../models/CardAddDTO';
+import type { CardEditDTO } from '../models/CardEditDTO';
 import type { CardQueryDTO } from '../models/CardQueryDTO';
+import type { CardUpdateDTO } from '../models/CardUpdateDTO';
 import type { DeckAddDTO } from '../models/DeckAddDTO';
 import type { DeckEditDTO } from '../models/DeckEditDTO';
 import type { R } from '../models/R';
@@ -99,6 +101,39 @@ export class Service {
         });
     }
     /**
+     * 查询一条错题
+     * @param id
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static getCard(
+        id: string,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/card/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
+     * 更新复习的错题数据
+     * @param requestBody
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static updateCard(
+        requestBody: CardUpdateDTO,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/card/update',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
      * 搜索错题
      * @param requestBody
      * @returns R OK
@@ -110,6 +145,22 @@ export class Service {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/card/list',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * 编辑错题数据
+     * @param requestBody
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static editCard(
+        requestBody: CardEditDTO,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/card/edit',
             body: requestBody,
             mediaType: 'application/json',
         });
