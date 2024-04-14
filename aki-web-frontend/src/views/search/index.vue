@@ -24,7 +24,9 @@
 <script setup lang="ts">
 import {CardQueryDTO, Service} from "@/api";
 import { Card } from "@/types/global";
+
 import {Message, Modal, Notification} from "@arco-design/web-vue";
+
 import {reactive, ref} from "vue";
 
 const router = useRouter();
