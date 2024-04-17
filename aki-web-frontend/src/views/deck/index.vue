@@ -5,7 +5,7 @@
         <template #cell="{ record }">
           <a-typography-text
             type="primary"
-            @click="router.push('/study/')"
+            @click="study(record)"
             style="cursor: pointer"
           >
             {{ record.name }}
@@ -106,11 +106,14 @@ import {
 import axios from "axios";
 import { DeckAddDTO, type DeckEditDTO, Service } from "@/api";
 import { Deck } from "@/types/global";
+import { useStudyStore } from "@/stores/study";
 
 const show = ref(true);
 
 //拿取到跳转到的信息
 const router = useRouter();
+
+const studyStore = useStudyStore();
 
 //使用抽屉式的添加方法
 const addDeck = async () => {
@@ -196,9 +199,17 @@ const handleDelete = async (id: string) => {
   });
 };
 
+const study = (record: Deck) => {
+  studyStore.current = record.name;
+  studyStore.index = 0;
+  localStorage.setItem("current", record.name);
+  router.push("/study/");
+};
+
 onMounted(async () => {
   loadData();
 });
 </script>
 
 <style lang="less"></style>
+@/stores/study

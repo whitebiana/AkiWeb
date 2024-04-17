@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import echarts from "@/utils/charts";
+import echarts from "@/utils/echarts";
 
 const main = ref();
 
@@ -32,3 +32,4 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped></style>
+@/utils/echarts

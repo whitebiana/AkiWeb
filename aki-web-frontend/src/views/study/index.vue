@@ -24,18 +24,10 @@
         <a-typography-text type="success" underline>1</a-typography-text>
       </a-col>
     </a-row>
-    <MdPreview
-      editorId="data"
-      modelValue="<center>1 + 1 = ?</center>"
-      previewTheme="github"
-    />
+    <MdPreview editorId="data" :modelValue="card.data" previewTheme="github" />
     <div class="answer" v-show="answerVisible">
       <a-divider />
-      <MdPreview
-        editorId="data"
-        modelValue="<center>2</center>"
-        previewTheme="github"
-      />
+      <MdPreview editorId="ans" :modelValue="card.ans" previewTheme="github" />
     </div>
     <div class="operation">
       <a-button type="primary" @click="showAnswer" v-show="!answerVisible"
@@ -69,17 +61,23 @@
 import { MdPreview, MdCatalog } from "md-editor-v3";
 // preview.css相比style.css少了编辑器那部分样式
 import "md-editor-v3/lib/preview.css";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import * as fsrsJs from "fsrs.js";
 import { Card } from "@/types/global";
+import { Service } from "@/api";
+import { Message } from "@arco-design/web-vue";
+import { useStudyStore } from "@/stores/study";
 let fsrs = new fsrsJs.FSRS();
 // transfer card
 
 const finished = ref(false);
 
 const answerVisible = ref(false);
+
+const studyStore = useStudyStore();
 
 const card = ref<Card>({
   id: "2",
@@ -101,6 +99,8 @@ const card = ref<Card>({
   isDeleted: 0,
 });
 
+const cards = ref<Card[]>([]);
+
 const scheduling = reactive({
   again: "",
   hard: "",
@@ -109,9 +109,17 @@ const scheduling = reactive({
 });
 
 const loadDate = async () => {
-  // 获取需要复习的card
-  // 如果复习完了，
-  // finished.value = true;
+  // 获取需要复习的cards
+  const res = await Service.getCardList({
+    searchCommand: `deck:${studyStore.current}`,
+  });
+  if (res.code === "00000") {
+    if (res.data.length === 0) finished.value = true;
+    else {
+      cards.value = res.data as Card[];
+      card.value = cards.value[studyStore.index];
+    }
+  } else Message.error(res.msg);
 };
 
 const getCard = (card: Card): fsrsJs.Card => {
@@ -133,23 +141,43 @@ const showAnswer = () => {
   let scheduling_cards = fsrs.repeat(getCard(card.value), new Date());
 
   // 计算复习间隔
-  scheduling.again = dayjs(
-    scheduling_cards[fsrsJs.Rating.Again].card.due.toISOString()
-  ).fromNow();
-  scheduling.hard = dayjs(
-    scheduling_cards[fsrsJs.Rating.Hard].card.due.toISOString()
-  ).fromNow();
-  scheduling.good = dayjs(
-    scheduling_cards[fsrsJs.Rating.Good].card.due.toISOString()
-  ).fromNow();
-  scheduling.easy = dayjs(
-    scheduling_cards[fsrsJs.Rating.Easy].card.due.toISOString()
-  ).fromNow();
+  scheduling.again =
+    dayjs(scheduling_cards[fsrsJs.Rating.Again].card.due.toISOString()).fromNow(
+      true
+    ) + "后";
+  scheduling.hard =
+    dayjs(scheduling_cards[fsrsJs.Rating.Hard].card.due.toISOString()).fromNow(
+      true
+    ) + "后";
+  scheduling.good =
+    dayjs(scheduling_cards[fsrsJs.Rating.Good].card.due.toISOString()).fromNow(
+      true
+    ) + "后";
+  scheduling.easy =
+    dayjs(scheduling_cards[fsrsJs.Rating.Easy].card.due.toISOString()).fromNow(
+      true
+    ) + "后";
 };
 
 const sync = async (info: fsrsJs.SchedulingInfo) => {
   // 同步数据
-  console.log(info.card);
+
+  const res = await Service.updateCard({
+    id: card.value.id,
+    state: info.card.state,
+    difficuty: info.card.difficulty,
+    stability: info.card.stability,
+    reps: info.card.reps,
+    lapses: info.card.lapses,
+    elapsedDays: info.card.elapsed_days,
+    scheduledDays: info.card.scheduled_days,
+    due: info.card.due.toISOString(),
+    lastReview: info.card.last_review.toISOString(),
+  });
+
+  if (res.code === "00000") {
+    // 跳转到下一题
+  } else Message.error(res.msg);
 };
 
 const repeat = (rating: number) => {
@@ -157,9 +185,19 @@ const repeat = (rating: number) => {
   let scheduling_cards = fsrs.repeat(getCard(card.value), new Date());
   // 把card和review_log数据同步到服务器
   sync(scheduling_cards[rating]);
+
+  if (studyStore.index === cards.value.length - 1) {
+    finished.value = true;
+    return;
+  }
+  // 跳转到下一题
+  answerVisible.value = false;
+  card.value = cards.value[++studyStore.index];
 };
 
-onMounted(() => {});
+onMounted(() => {
+  loadDate();
+});
 </script>
 
 <style lang="less" scoped>
@@ -178,3 +216,4 @@ onMounted(() => {});
   background-color: white;
 }
 </style>
+@/stores/study
