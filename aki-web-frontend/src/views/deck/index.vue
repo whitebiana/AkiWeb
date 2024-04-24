@@ -14,9 +14,17 @@
       </a-table-column>
       <a-table-column title="State" :width="66">
         <template #cell="{ record }">
-          <a-typography-text type="primary"> 1 </a-typography-text>
-          <a-typography-text type="danger"> 1 </a-typography-text>
-          <a-typography-text type="success"> 1 </a-typography-text>
+          <a-space>
+            <a-typography-text type="primary">
+              {{ record.newNum }}
+            </a-typography-text>
+            <a-typography-text type="danger">
+              {{ record.learningNum }}
+            </a-typography-text>
+            <a-typography-text type="success">
+              {{ record.reviewNum }}
+            </a-typography-text>
+          </a-space>
         </template>
       </a-table-column>
       <a-table-column title="Actions" :width="82">
@@ -105,7 +113,7 @@ import {
 } from "@arco-design/web-vue";
 import axios from "axios";
 import { DeckAddDTO, type DeckEditDTO, Service } from "@/api";
-import { Deck } from "@/types/global";
+import { Deck, DeckVO } from "@/types/global";
 import { useStudyStore } from "@/stores/study";
 
 const show = ref(true);
@@ -144,7 +152,7 @@ const handleCancel = () => {
   visible.value = false;
 };
 
-const decks = ref<Deck[]>([]);
+const decks = ref<DeckVO[]>([]);
 
 const pagination = ref<PaginationProps>({
   current: 1,
@@ -199,10 +207,15 @@ const handleDelete = async (id: string) => {
   });
 };
 
-const study = (record: Deck) => {
-  studyStore.current = record.name;
+const study = (record: DeckVO) => {
   studyStore.index = 0;
-  localStorage.setItem("current", record.name);
+  studyStore.current.id = record.id;
+  studyStore.current.name = record.name;
+  studyStore.current.newNum = record.newNum;
+  studyStore.current.learningNum = record.learningNum;
+  studyStore.current.reviewNum = record.reviewNum;
+
+  localStorage.setItem("current", JSON.stringify(record));
   router.push("/study/");
 };
 
@@ -212,4 +225,3 @@ onMounted(async () => {
 </script>
 
 <style lang="less"></style>
-@/stores/study

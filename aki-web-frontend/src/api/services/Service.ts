@@ -218,4 +218,21 @@ export class Service {
             url: '/test/hello',
         });
     }
+    /**
+     * 获取到期的错题
+     * @param did
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static getExpiredCards(
+        did: string,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/card/list/expired/{did}',
+            path: {
+                'did': did,
+            },
+        });
+    }
 }

@@ -6,6 +6,14 @@ export interface Deck {
     isDeleted: number
 }
 
+export interface DeckVO {
+    id: string,
+    name: string,
+    newNum: number,
+    reviewNum: number,
+    learningNum: number
+}
+
 export interface Card {
     id: string,
     did: string,
@@ -16,7 +24,7 @@ export interface Card {
     difficuty: number,
     stability: number,
     reps: number,
-    lapess: number,
+    lapses: number,
     elapsedDays: number,
     scheduledDays: number,
     due: string,

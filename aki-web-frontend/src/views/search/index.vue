@@ -22,69 +22,74 @@
 </template>
 
 <script setup lang="ts">
-import {CardQueryDTO, Service} from "@/api";
+import { CardQueryDTO, Service } from "@/api";
+import { useStudyStore } from "@/stores/study";
 import { Card } from "@/types/global";
 
-import {Message, Modal, Notification} from "@arco-design/web-vue";
+import { Message, Modal, Notification } from "@arco-design/web-vue";
 
-import {reactive, ref} from "vue";
+import { reactive, ref } from "vue";
 
 const router = useRouter();
+
+const studyStore = useStudyStore();
 
 const form: CardQueryDTO = reactive({
   searchCommand: "deck:current",
 });
 
 //const cards = ref<Card[]>(
-  // {
-  //   id: "1",
-  //   did: "1",
-  //   data: "aaaaaaaaaaaaaa",
-  //   ans: "aaa",
-  //   tags: "aaa",
-  //   state: 0,
-  //   difficuty: 0,
-  //   stability: 0,
-  //   reps: 0,
-  //   lapess: 0,
-  //   elapsedDays: 0,
-  //   scheduledDays: 0,
-  //   due: "2018-04-04T16:00:00.000Z",
-  //   lastReview: "2018-04-04T16:00:00.000Z",
-  //   gmtCreate: "2018-04-04T16:00:00.000Z",
-  //   gmtModified: "2018-04-04T16:00:00.000Z",
-  //   isDeleted: 0,
-  // },
-  // {
-  //   id: "3",
-  //   did: "3",
-  //   data: "ccc",
-  //   ans: "ccc",
-  //   tags: "ccc",
-  //   state: 0,
-  //   difficuty: 0,
-  //   stability: 0,
-  //   reps: 0,
-  //   lapess: 0,
-  //   elapsedDays: 0,
-  //   scheduledDays: 0,
-  //   due: "2018-04-04T16:00:00.000Z",
-  //   lastReview: "2018-04-04T16:00:00.000Z",
-  //   gmtCreate: "2018-04-04T16:00:00.000Z",
-  //   gmtModified: "2018-04-04T16:00:00.000Z",
-  //   isDeleted: 0,
-  // },
+// {
+//   id: "1",
+//   did: "1",
+//   data: "aaaaaaaaaaaaaa",
+//   ans: "aaa",
+//   tags: "aaa",
+//   state: 0,
+//   difficuty: 0,
+//   stability: 0,
+//   reps: 0,
+//   lapess: 0,
+//   elapsedDays: 0,
+//   scheduledDays: 0,
+//   due: "2018-04-04T16:00:00.000Z",
+//   lastReview: "2018-04-04T16:00:00.000Z",
+//   gmtCreate: "2018-04-04T16:00:00.000Z",
+//   gmtModified: "2018-04-04T16:00:00.000Z",
+//   isDeleted: 0,
+// },
+// {
+//   id: "3",
+//   did: "3",
+//   data: "ccc",
+//   ans: "ccc",
+//   tags: "ccc",
+//   state: 0,
+//   difficuty: 0,
+//   stability: 0,
+//   reps: 0,
+//   lapess: 0,
+//   elapsedDays: 0,
+//   scheduledDays: 0,
+//   due: "2018-04-04T16:00:00.000Z",
+//   lastReview: "2018-04-04T16:00:00.000Z",
+//   gmtCreate: "2018-04-04T16:00:00.000Z",
+//   gmtModified: "2018-04-04T16:00:00.000Z",
+//   isDeleted: 0,
+// },
 //);
 const cards = ref<Card[]>([]);
 
-
 const search = async () => {
-   const res = await Service.getCardList(form)
+  const res = await Service.getCardList({
+    searchCommand:
+      form.searchCommand === "deck:current"
+        ? `deck:${studyStore.current}`
+        : form.searchCommand,
+  });
   if (res.code === "00000") {
     cards.value = res.data as Card[];
-     console.log(cards.value)
-  } else Notification.error(res.msg)
-
+  } else Notification.error(res.msg);
 };
 
 const edit = (id: string) => {

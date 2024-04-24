@@ -1,6 +1,5 @@
 package pub.akiwebbackend.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
@@ -10,13 +9,9 @@ import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 import pub.akiwebbackend.common.ErrorCode;
 import pub.akiwebbackend.common.R;
-import pub.akiwebbackend.domain.dto.card.CardAddDTO;
-import pub.akiwebbackend.domain.dto.card.CardEditDTO;
-import pub.akiwebbackend.domain.dto.card.CardQueryDTO;
-import pub.akiwebbackend.domain.dto.card.CardUpdateDTO;
+import pub.akiwebbackend.domain.dto.card.*;
 import pub.akiwebbackend.domain.entiry.Card;
 import pub.akiwebbackend.domain.entiry.Deck;
 import pub.akiwebbackend.exception.BusinessException;
@@ -24,6 +19,7 @@ import pub.akiwebbackend.service.CardService;
 import pub.akiwebbackend.service.DeckService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -182,5 +178,14 @@ public class CardController {
         return R.success();
     }
 
+    @Operation(summary = "获取到期的错题")
+    @GetMapping("/list/expired/{did}")
+    public R getExpiredCards(@PathVariable String did) {
+        QueryWrapper<Card> wrapper = new QueryWrapper<>();
 
+        wrapper.eq("did", did);
+        wrapper.le("due", new Date());
+
+        return R.success(cardService.list(wrapper));
+    }
 }

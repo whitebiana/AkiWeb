@@ -2,6 +2,7 @@ package pub.akiwebbackend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,9 +15,15 @@ import pub.akiwebbackend.common.ErrorCode;
 import pub.akiwebbackend.common.R;
 import pub.akiwebbackend.domain.dto.deck.DeckAddDTO;
 import pub.akiwebbackend.domain.dto.deck.DeckEditDTO;
+import pub.akiwebbackend.domain.entiry.Card;
 import pub.akiwebbackend.domain.entiry.Deck;
+import pub.akiwebbackend.domain.vo.DeckVO;
 import pub.akiwebbackend.exception.BusinessException;
+import pub.akiwebbackend.service.CardService;
 import pub.akiwebbackend.service.DeckService;
+
+import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * @author cym
@@ -29,6 +36,9 @@ public class DeckController {
 
     @Resource
     private DeckService deckService;
+
+    @Resource
+    private CardService cardService;
 
     /**
      * 新建错题本
@@ -117,6 +127,19 @@ public class DeckController {
         }
 
         // 直接查
-        return R.success(deckService.page(new Page<>(currentPage, pageSize)));
+        Page<Deck> deckList = deckService.page(new Page<>(currentPage, pageSize));
+
+        IPage<DeckVO> page = new Page<>(currentPage, pageSize, deckList.getTotal());
+        page.setRecords(deckList.getRecords().stream().map(deck -> {
+            DeckVO deckVO = new DeckVO();
+            BeanUtils.copyProperties(deck, deckVO);
+
+            deckVO.setNewNum(cardService.count(new LambdaQueryWrapper<Card>().eq(Card::getState, 0).eq(Card::getDid, deck.getId())));
+            deckVO.setReviewNum(cardService.count(new LambdaQueryWrapper<Card>().eq(Card::getState, 2).eq(Card::getDid, deck.getId()).le(Card::getDue, new Date())));
+            deckVO.setLearningNum(cardService.count(new LambdaQueryWrapper<Card>().and(qw -> qw.eq(Card::getState, 3).or().eq(Card::getState, 1)).eq(Card::getDid, deck.getId())));
+            return deckVO;
+        }).collect(Collectors.toList()));
+
+        return R.success(page);
     }
 }

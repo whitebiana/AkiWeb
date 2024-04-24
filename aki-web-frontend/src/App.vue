@@ -19,4 +19,8 @@ h1 {
   font-size: 200% !important;
   font-weight: 500;
 }
+
+h2 {
+  font-weight: 500;
+}
 </style>

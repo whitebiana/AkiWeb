@@ -19,9 +19,19 @@
       </a-col>
       <a-col flex="auto"></a-col>
       <a-col flex="64px">
-        <a-typography-text type="primary" underline>1</a-typography-text>
-        + <a-typography-text type="danger" underline>1</a-typography-text> +
-        <a-typography-text type="success" underline>1</a-typography-text>
+        <a-typography-text type="primary" :underline="card.state === 0">{{
+          studyStore.current.newNum
+        }}</a-typography-text>
+        +
+        <a-typography-text
+          type="danger"
+          :underline="card.state === 1 || card.state === 3"
+          >{{ studyStore.current.learningNum }}</a-typography-text
+        >
+        +
+        <a-typography-text type="success" :underline="card.state === 2">{{
+          studyStore.current.reviewNum
+        }}</a-typography-text>
       </a-col>
     </a-row>
     <MdPreview editorId="data" :modelValue="card.data" previewTheme="github" />
@@ -53,7 +63,13 @@
       </a-space>
     </div>
   </div>
-  <h1 v-else>Congratulations! You have finished this deck for now.</h1>
+  <div v-else>
+    <h1>Congratulations! You have finished this deck for now.</h1>
+    <h2 v-show="studyStore.current.learningNum !== 0">
+      There are {{ studyStore.current.learningNum }} learning cards due later
+      today.
+    </h2>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +86,7 @@ import { Card } from "@/types/global";
 import { Service } from "@/api";
 import { Message } from "@arco-design/web-vue";
 import { useStudyStore } from "@/stores/study";
+
 let fsrs = new fsrsJs.FSRS();
 // transfer card
 
@@ -89,7 +106,7 @@ const card = ref<Card>({
   difficuty: 0,
   stability: 0,
   reps: 0,
-  lapess: 0,
+  lapses: 0,
   elapsedDays: 0,
   scheduledDays: 0,
   due: "2018-04-04T16:00:00.000Z",
@@ -110,9 +127,7 @@ const scheduling = reactive({
 
 const loadDate = async () => {
   // 获取需要复习的cards
-  const res = await Service.getCardList({
-    searchCommand: `deck:${studyStore.current}`,
-  });
+  const res = await Service.getExpiredCards(studyStore.current.id);
   if (res.code === "00000") {
     if (res.data.length === 0) finished.value = true;
     else {
@@ -128,7 +143,7 @@ const getCard = (card: Card): fsrsJs.Card => {
   res.difficulty = card.difficuty;
   res.stability = card.stability;
   res.reps = card.reps;
-  res.lapses = card.lapess;
+  res.lapses = card.lapses;
   res.elapsed_days = card.elapsedDays;
   res.scheduled_days = card.scheduledDays;
   res.due = new Date(card.due);
@@ -175,9 +190,7 @@ const sync = async (info: fsrsJs.SchedulingInfo) => {
     lastReview: info.card.last_review.toISOString(),
   });
 
-  if (res.code === "00000") {
-    // 跳转到下一题
-  } else Message.error(res.msg);
+  if (res.code !== "00000") Message.error(res.msg);
 };
 
 const repeat = (rating: number) => {
@@ -186,10 +199,28 @@ const repeat = (rating: number) => {
   // 把card和review_log数据同步到服务器
   sync(scheduling_cards[rating]);
 
+  // 对应原状态数量--
+  switch (card.value.state) {
+    case 0:
+      studyStore.current.newNum--;
+      break;
+    case 2:
+      studyStore.current.reviewNum--;
+    default:
+      studyStore.current.learningNum--;
+      break;
+  }
+
+  // 对应新状态数量++
+  const newState = scheduling_cards[rating].card.state;
+  if (newState === 1 || newState === 3) studyStore.current.learningNum++;
+
+  // 如果复习完了，直接return，否则跳转到下一题
   if (studyStore.index === cards.value.length - 1) {
     finished.value = true;
     return;
   }
+
   // 跳转到下一题
   answerVisible.value = false;
   card.value = cards.value[++studyStore.index];
@@ -216,4 +247,3 @@ onMounted(() => {
   background-color: white;
 }
 </style>
-@/stores/study
