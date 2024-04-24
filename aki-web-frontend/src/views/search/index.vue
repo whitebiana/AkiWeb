@@ -84,7 +84,7 @@ const search = async () => {
   const res = await Service.getCardList({
     searchCommand:
       form.searchCommand === "deck:current"
-        ? `deck:${studyStore.current}`
+        ? `deck:${studyStore.current.name}`
         : form.searchCommand,
   });
   if (res.code === "00000") {
