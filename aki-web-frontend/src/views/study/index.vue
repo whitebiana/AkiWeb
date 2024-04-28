@@ -15,6 +15,9 @@
               <icon-minus />
             </template>
           </a-button>
+          <a-button type="outline" @click="" v-show="studyStore.index !== 0"
+            >上一题</a-button
+          >
         </a-space>
       </a-col>
       <a-col flex="auto"></a-col>
@@ -206,6 +209,7 @@ const repeat = (rating: number) => {
       break;
     case 2:
       studyStore.current.reviewNum--;
+      break;
     default:
       studyStore.current.learningNum--;
       break;
@@ -215,13 +219,13 @@ const repeat = (rating: number) => {
   const newState = scheduling_cards[rating].card.state;
   if (newState === 1 || newState === 3) studyStore.current.learningNum++;
 
-  // 如果复习完了，直接return，否则跳转到下一题
+  // 如果复习完了，直接return
   if (studyStore.index === cards.value.length - 1) {
     finished.value = true;
     return;
   }
 
-  // 跳转到下一题
+  // 否则跳转到下一题
   answerVisible.value = false;
   card.value = cards.value[++studyStore.index];
 };

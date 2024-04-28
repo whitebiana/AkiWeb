@@ -202,20 +202,21 @@ export class Service {
      * @returns R OK
      * @throws ApiError
      */
-    public static list(): CancelablePromise<R> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/test/list',
-        });
-    }
-    /**
-     * @returns R OK
-     * @throws ApiError
-     */
     public static hello(): CancelablePromise<R> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/test/hello',
+        });
+    }
+    /**
+     * 获取全部错题本
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static list(): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/deck/list',
         });
     }
     /**

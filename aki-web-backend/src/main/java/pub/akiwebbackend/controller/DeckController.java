@@ -142,4 +142,10 @@ public class DeckController {
 
         return R.success(page);
     }
+
+    @Operation(summary = "获取全部错题本")
+    @GetMapping("/list")
+    public R list() {
+        return R.success(deckService.list());
+    }
 }
