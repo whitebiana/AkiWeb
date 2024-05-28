@@ -71,13 +71,21 @@
         :max-tag-count="2"
         allow-clear
         scrollbar
+        :options="tags"
       >
-        <a-option>标签 1</a-option>
-        <a-option>标签 2</a-option>
-        <a-option>标签 3</a-option>
-        <a-option>标签 4</a-option>
-        <a-option>标签 5</a-option>
-        <a-option>标签 6</a-option>
+        <template #label="{ data }">
+          <span><icon-plus />{{ data?.label }}</span>
+        </template>
+        <template #footer>
+          <div style="padding: 6px 0; text-align: center">
+            <a-button @click="form.tags = []">
+              <template #icon>
+                <icon-refresh />
+              </template>
+              <template #default>重置</template>
+            </a-button>
+          </div>
+        </template>
       </a-select>
     </a-form-item>
 
@@ -97,8 +105,9 @@ import "@vavt/v3-extension/lib/asset/style.css";
 // Or individual style for Emoji
 // import '@vavt/v3-extension/lib/asset/Emoji.css';
 import { CardAddDTO, Service } from "@/api";
-import { Message, Notification } from "@arco-design/web-vue";
+import { Message, Notification, SelectOptionGroup } from "@arco-design/web-vue";
 import { Deck } from "@/types/global";
+import defaultTags from "@/config/tags.json";
 
 config({
   editorConfig: {
@@ -153,6 +162,14 @@ const form: CardAddDTO = reactive({
   ans: "",
   tags: [],
 });
+
+const tags: SelectOptionGroup[] = [
+  {
+    isGroup: true,
+    label: "数据结构",
+    options: defaultTags.ds,
+  },
+];
 
 const handleSubmit = async () => {
   const res = await Service.addCard(form);

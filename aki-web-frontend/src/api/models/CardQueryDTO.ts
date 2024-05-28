@@ -4,5 +4,6 @@
 /* eslint-disable */
 export type CardQueryDTO = {
     searchCommand?: string;
+    tags?: Array<string>;
 };
 

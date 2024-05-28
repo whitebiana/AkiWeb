@@ -1,5 +1,6 @@
 package pub.akiwebbackend.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
@@ -87,14 +88,25 @@ public class CardController {
         }
 
         String searchCommand = cardQueryDTO.getSearchCommand();
+        List<String> tags = cardQueryDTO.getTags();
+
+        QueryWrapper<Card> baseQueryWrapper = new QueryWrapper<>();
+
+        // 按标签查询
+        if (CollUtil.isNotEmpty(tags)) {
+            for (String tag : tags) {
+                baseQueryWrapper.like("tags", "\"" + tag + "\"");
+            }
+        }
 
         // 搜索逻辑 先将命令拆分成数组 然后使用拼接条件查询
         // 限制最多查询100条
         String LIMIT = "limit 100";
+        baseQueryWrapper.last(LIMIT);
 
         // 1.输入空的值就搜索所有的卡片：限制显示100条
          if (StringUtils.isBlank(searchCommand)) {
-             return R.success(cardService.list(new LambdaQueryWrapper<Card>().last(LIMIT)));
+             return R.success(cardService.list(baseQueryWrapper));
          }
 
         // 2.前缀一定是"deck:"，如果是空值或者是其他的乱输入就返回空
@@ -117,18 +129,13 @@ public class CardController {
                 // 3.返回该错题本的所有题目
                 // 获取到deck的id
                 String deckId = deck.getId();
-                // 创建查询条件
-                QueryWrapper<Card> cardQueryWrapper = new QueryWrapper<>();
-                cardQueryWrapper.eq("did",deckId).last(LIMIT);
                 // 查询该错题本的所有题目，超过一百条要冲会员
-                List<Card> cardList = cardService.list(cardQueryWrapper);
+                List<Card> cardList = cardService.list(baseQueryWrapper.clone().eq("did",deckId));
                 return R.success(cardList);
             }
         } else { // 输入的是题目的名称直接查询得到并返回使用queryWrapper拼接查询
             //创建查询条件
-            QueryWrapper<Card> wrapper = new QueryWrapper<>();
-            wrapper.like("data",searchCommand).last(LIMIT);
-            List<Card> card = cardService.list(wrapper);
+            List<Card> card = cardService.list(baseQueryWrapper.clone().like("data",searchCommand));
             return R.success(card);
         }
     }

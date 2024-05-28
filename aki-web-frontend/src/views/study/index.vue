@@ -3,19 +3,21 @@
     <a-row :wrap="false" align="center">
       <a-col flex="230px">
         <a-space>
-          <a-button type="outline">Edit</a-button>
-          <a-button type="outline">Options</a-button>
-          <a-button type="outline">
+          <a-button type="outline" @click="router.push(`/edit/${card.id}/`)"
+            >Edit</a-button
+          >
+          <a-button type="outline" v-if="false">Options</a-button>
+          <a-button type="outline" @click="bigger">
             <template #icon>
               <icon-plus />
             </template>
           </a-button>
-          <a-button type="outline">
+          <a-button type="outline" @click="smaller">
             <template #icon>
               <icon-minus />
             </template>
           </a-button>
-          <a-button type="outline" @click="" v-show="studyStore.index !== 0"
+          <a-button type="outline" @click="back" v-show="studyStore.index !== 0"
             >上一题</a-button
           >
         </a-space>
@@ -37,10 +39,20 @@
         }}</a-typography-text>
       </a-col>
     </a-row>
-    <MdPreview editorId="data" :modelValue="card.data" previewTheme="github" />
-    <div class="answer" v-show="answerVisible">
-      <a-divider />
-      <MdPreview editorId="ans" :modelValue="card.ans" previewTheme="github" />
+    <div ref="contentRef">
+      <MdPreview
+        editorId="data"
+        :modelValue="card.data"
+        previewTheme="github"
+      />
+      <div class="answer" v-show="answerVisible">
+        <a-divider />
+        <MdPreview
+          editorId="ans"
+          :modelValue="card.ans"
+          previewTheme="github"
+        />
+      </div>
     </div>
     <div class="operation">
       <a-button type="primary" @click="showAnswer" v-show="!answerVisible"
@@ -97,6 +109,8 @@ const finished = ref(false);
 
 const answerVisible = ref(false);
 
+const router = useRouter();
+
 const studyStore = useStudyStore();
 
 const card = ref<Card>({
@@ -121,12 +135,20 @@ const card = ref<Card>({
 
 const cards = ref<Card[]>([]);
 
+const contentRef = ref<HTMLElement>();
+
 const scheduling = reactive({
   again: "",
   hard: "",
   good: "",
   easy: "",
 });
+
+let tempState = {
+  newNum: 0,
+  learningNum: 0,
+  reviewNum: 0,
+};
 
 const loadDate = async () => {
   // 获取需要复习的cards
@@ -202,6 +224,10 @@ const repeat = (rating: number) => {
   // 把card和review_log数据同步到服务器
   sync(scheduling_cards[rating]);
 
+  tempState.newNum = studyStore.current.newNum;
+  tempState.learningNum = studyStore.current.learningNum;
+  tempState.reviewNum = studyStore.current.reviewNum;
+
   // 对应原状态数量--
   switch (card.value.state) {
     case 0:
@@ -226,11 +252,35 @@ const repeat = (rating: number) => {
   }
 
   // 否则跳转到下一题
+  next();
+};
+
+const next = () => {
   answerVisible.value = false;
   card.value = cards.value[++studyStore.index];
 };
 
+const back = () => {
+  // 重置state
+  studyStore.current.newNum = tempState.newNum;
+  studyStore.current.learningNum = tempState.learningNum;
+  studyStore.current.reviewNum = tempState.reviewNum;
+
+  answerVisible.value = false;
+  card.value = cards.value[--studyStore.index];
+};
+
+const bigger = () => {
+  contentRef.value.style["zoom"] = Number(contentRef.value.style["zoom"]) + 0.1;
+};
+
+const smaller = () => {
+  // console.log(contentRef.value.style.zoom);
+  contentRef.value.style["zoom"] -= 0.1;
+};
+
 onMounted(() => {
+  contentRef.value.style["zoom"] = 1.0;
   loadDate();
 });
 </script>

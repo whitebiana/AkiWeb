@@ -1,10 +1,52 @@
 <template>
   <h1>Search</h1>
-  <a-space>
+  <a-space wrap>
     <a-input v-model="form.searchCommand" size="large" />
+
+    <a-select
+      v-if="tagsVisible"
+      v-model="form.tags"
+      :options="tags"
+      placeholder="标签"
+      multiple
+      :max-tag-count="1"
+      allow-clear
+      style="width: 180px"
+    >
+      <template #label="{ data }">
+        <span><icon-plus />{{ data?.label }}</span>
+      </template>
+      <template #footer>
+        <div style="padding: 6px 0; text-align: center">
+          <a-button @click="form.tags = []">
+            <template #icon>
+              <icon-refresh />
+            </template>
+            <template #default>重置</template>
+          </a-button>
+        </div>
+      </template>
+    </a-select>
+
+    <a-button @click="tagsVisible = !tagsVisible">
+      <template #icon>
+        <icon-tag />
+      </template>
+    </a-button>
     <a-button type="primary" @click="search">Search</a-button>
   </a-space>
+
   <br />
+  <a-space wrap v-show="form.tags.length !== 0">
+    <a-tag
+      size="large"
+      closable
+      v-for="(tag, index) of form.tags"
+      :key="tag"
+      @close="handleTagClose(index)"
+      >{{ tag }}</a-tag
+    >
+  </a-space>
   <br />
   <a-list :data="cards" :bordered="false">
     <template #item="{ item }">
@@ -25,10 +67,22 @@
 import { CardQueryDTO, Service } from "@/api";
 import { useStudyStore } from "@/stores/study";
 import { Card } from "@/types/global";
-
-import { Message, Modal, Notification } from "@arco-design/web-vue";
-
+import {
+  Message,
+  Modal,
+  Notification,
+  SelectOptionGroup,
+} from "@arco-design/web-vue";
 import { reactive, ref } from "vue";
+import defaultTags from "@/config/tags.json";
+
+const tags: SelectOptionGroup[] = [
+  {
+    isGroup: true,
+    label: "数据结构",
+    options: defaultTags.ds,
+  },
+];
 
 const router = useRouter();
 
@@ -36,49 +90,12 @@ const studyStore = useStudyStore();
 
 const form: CardQueryDTO = reactive({
   searchCommand: "deck:current",
+  tags: [],
 });
 
-//const cards = ref<Card[]>(
-// {
-//   id: "1",
-//   did: "1",
-//   data: "aaaaaaaaaaaaaa",
-//   ans: "aaa",
-//   tags: "aaa",
-//   state: 0,
-//   difficuty: 0,
-//   stability: 0,
-//   reps: 0,
-//   lapess: 0,
-//   elapsedDays: 0,
-//   scheduledDays: 0,
-//   due: "2018-04-04T16:00:00.000Z",
-//   lastReview: "2018-04-04T16:00:00.000Z",
-//   gmtCreate: "2018-04-04T16:00:00.000Z",
-//   gmtModified: "2018-04-04T16:00:00.000Z",
-//   isDeleted: 0,
-// },
-// {
-//   id: "3",
-//   did: "3",
-//   data: "ccc",
-//   ans: "ccc",
-//   tags: "ccc",
-//   state: 0,
-//   difficuty: 0,
-//   stability: 0,
-//   reps: 0,
-//   lapess: 0,
-//   elapsedDays: 0,
-//   scheduledDays: 0,
-//   due: "2018-04-04T16:00:00.000Z",
-//   lastReview: "2018-04-04T16:00:00.000Z",
-//   gmtCreate: "2018-04-04T16:00:00.000Z",
-//   gmtModified: "2018-04-04T16:00:00.000Z",
-//   isDeleted: 0,
-// },
-//);
 const cards = ref<Card[]>([]);
+
+const tagsVisible = ref(false);
 
 const search = async () => {
   const res = await Service.getCardList({
@@ -86,7 +103,9 @@ const search = async () => {
       form.searchCommand === "deck:current"
         ? `deck:${studyStore.current.name}`
         : form.searchCommand,
+    tags: form.tags,
   });
+
   if (res.code === "00000") {
     cards.value = res.data as Card[];
   } else Notification.error(res.msg);
@@ -118,6 +137,11 @@ const remove = (id: string) => {
       done(true);
     },
   });
+};
+
+const handleTagClose = async (index: number) => {
+  form.tags.splice(index, 1);
+  // await nextTick();
 };
 </script>
 
