@@ -1,4 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import createRouteGuard from './guard';
+import NProgress from 'nprogress'; // progress bar
+import 'nprogress/nprogress.css';
+
+NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,5 +47,8 @@ const router = createRouter({
     }
   ]
 })
+
+
+createRouteGuard(router);
 
 export default router

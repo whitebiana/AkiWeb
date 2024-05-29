@@ -2,8 +2,8 @@
   <div class="container">
     <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
     <div ref="calendar" style="width: 800px; height: 250px; margin: 0 auto" />
-    <div ref="study" style="width: 800px; height: 600px; margin: 0 auto" />
-    <div ref="memory" style="width: 800px; height: 500px; margin: 0 auto" />
+    <div ref="study" style="width: 1000px; height: 700px; margin: 0 auto" />
+    <div ref="memory" style="width: 1000px; height: 500px; margin: 0 auto" />
   </div>
 </template>
 
@@ -23,7 +23,7 @@ function getVirtualData(year: string) {
   for (let time = date; time < end; time += dayTime) {
     data.push([
       echarts.time.format(time, "{yyyy}-{MM}-{dd}", false),
-      Math.floor(Math.random() * 10000),
+      Math.floor(Math.random() * 2),
     ]);
   }
   return data;
@@ -41,27 +41,38 @@ onMounted(() => {
     tooltip: {},
     visualMap: {
       min: 0,
-      max: 10000,
+      // max: 30,
       type: "piecewise",
       orient: "horizontal",
       left: "center",
       top: 65,
+      pieces: [
+        { lte: 0, color: "#ededed" },
+        { gte: 1, lte: 9, color: "#bedaff" },
+        { gte: 10, lte: 19, color: "#6aa1ff" },
+        { gte: 20, lte: 29, color: "#4080ff" },
+        { gte: 30, color: "#0e42d2" },
+      ],
     },
     calendar: {
       top: 120,
       left: 30,
       right: 30,
-      cellSize: ["auto", 13],
-      range: "2016",
+      cellSize: ["auto", 16],
+      range: "2024",
       itemStyle: {
-        borderWidth: 0.5,
+        borderWidth: 2,
+        borderColor: "#fff",
+      },
+      splitLine: {
+        show: false,
       },
       yearLabel: { show: false },
     },
     series: {
       type: "heatmap",
       coordinateSystem: "calendar",
-      data: getVirtualData("2016"),
+      data: getVirtualData("2024"),
     },
   });
 
@@ -82,7 +93,16 @@ onMounted(() => {
     xAxis: [
       {
         type: "category",
-        data: ["6天前", "5天前", "4天前", "3天前", "前天", "昨天", "今天"],
+        data: [
+          "7天前",
+          "6天前",
+          "5天前",
+          "4天前",
+          "3天前",
+          "前天",
+          "昨天",
+          "今天",
+        ],
       },
     ],
     yAxis: [
@@ -92,102 +112,149 @@ onMounted(() => {
     ],
     series: [
       {
-        name: "熟知的错题量",
-        type: "bar",
-        emphasis: {
-          focus: "series",
-        },
-        data: [320, 332, 301, 334, 390, 330, 320],
-      },
-      {
         name: "认识的错题量",
         type: "bar",
-        stack: "Ad",
+        stack: "asdf",
         emphasis: {
           focus: "series",
         },
-        data: [120, 132, 101, 134, 90, 230, 210],
+        itemStyle: {
+          color: "#91cc75",
+        },
+        data: [120, 132, 101, 134, 90, 230, 210, 300],
       },
       {
         name: "模糊的错题量",
         type: "bar",
-        stack: "Ad",
+        stack: "asdf",
         emphasis: {
           focus: "series",
         },
-        data: [220, 182, 191, 234, 290, 330, 310],
+        itemStyle: {
+          color: "#fac858",
+        },
+        data: [220, 182, 191, 234, 290, 330, 310, 250],
       },
       {
         name: "忘记的错题量",
         type: "bar",
-        stack: "Ad",
+        stack: "asdf",
         emphasis: {
           focus: "series",
         },
-        data: [150, 232, 201, 154, 190, 330, 410],
+        itemStyle: {
+          color: "#ee6666",
+        },
+        data: [150, 232, 201, 154, 190, 330, 410, 200],
       },
     ],
   });
 
   echarts.init(memory.value).setOption({
-    legend: {},
     tooltip: {
       trigger: "axis",
-      showContent: false,
+      axisPointer: {
+        type: "cross",
+        label: {
+          backgroundColor: "#6a7985",
+        },
+      },
     },
-    dataset: {
-      source: [
-        ["product", "5天前", "4天前", "3天前", "前天", "昨天", "今天"],
-        ["记忆持久度>90天的错题量", 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-        ["记忆持久度>60天的错题量", 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-        ["记忆持久度>30天的错题量", 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-        ["记忆持久度>10天的错题量", 25.2, 37.1, 41.2, 18, 33.9, 49.1],
+    legend: {
+      data: [
+        "已加入记忆规划的全部错题",
+        "记忆持久度>10天的错题量",
+        "记忆持久度>30天的错题量",
+        "记忆持久度>60天的错题量",
+        "记忆持久度>90天的错题量",
       ],
     },
-    xAxis: { type: "category" },
-    yAxis: { gridIndex: 0 },
-    grid: { top: "55%" },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true,
+    },
+    xAxis: [
+      {
+        type: "category",
+        boundaryGap: false,
+        data: [
+          "7天前",
+          "6天前",
+          "5天前",
+          "4天前",
+          "3天前",
+          "前天",
+          "昨天",
+          "今天",
+        ],
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+      },
+    ],
     series: [
       {
+        name: "记忆持久度>90天的错题量",
         type: "line",
-        smooth: true,
-        seriesLayoutBy: "row",
-        emphasis: { focus: "series" },
-      },
-      {
-        type: "line",
-        smooth: true,
-        seriesLayoutBy: "row",
-        emphasis: { focus: "series" },
-      },
-      {
-        type: "line",
-        smooth: true,
-        seriesLayoutBy: "row",
-        emphasis: { focus: "series" },
-      },
-      {
-        type: "line",
-        smooth: true,
-        seriesLayoutBy: "row",
-        emphasis: { focus: "series" },
-      },
-      {
-        type: "pie",
-        id: "pie",
-        radius: "30%",
-        center: ["50%", "25%"],
+        stack: "Total",
+        areaStyle: {},
         emphasis: {
-          focus: "self",
+          focus: "series",
         },
+        data: [120, 132, 101, 134, 90, 230, 210, 210],
+      },
+      {
+        name: "记忆持久度>60天的错题量",
+        type: "line",
+        stack: "Total",
+        areaStyle: {},
+        emphasis: {
+          focus: "series",
+        },
+        data: [220, 182, 191, 234, 290, 330, 310, 310],
+      },
+      {
+        name: "记忆持久度>30天的错题量",
+        type: "line",
+        stack: "Total",
+        areaStyle: {},
+        emphasis: {
+          focus: "series",
+        },
+        data: [150, 232, 201, 154, 190, 330, 410, 410],
+      },
+      {
+        name: "记忆持久度>10天的错题量",
+        type: "line",
+        stack: "Total",
+        areaStyle: {},
+        emphasis: {
+          focus: "series",
+        },
+        data: [320, 332, 301, 334, 390, 330, 320, 320],
+      },
+      {
+        name: "已加入记忆规划的全部错题",
+        type: "line",
+        stack: "Total",
         label: {
-          formatter: "{b}: {@5天前} ({d}%)",
+          show: true,
+          position: "top",
         },
-        encode: {
-          itemName: "product",
-          value: "5天前",
-          tooltip: "5天前",
+        areaStyle: {},
+        emphasis: {
+          focus: "series",
         },
+        data: [820, 932, 901, 934, 1290, 1330, 1320, 1320],
       },
     ],
   });

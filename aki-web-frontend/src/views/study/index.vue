@@ -275,7 +275,7 @@ const bigger = () => {
 };
 
 const smaller = () => {
-  // console.log(contentRef.value.style.zoom);
+  if (contentRef.value.style["zoom"] == "0.1") return;
   contentRef.value.style["zoom"] -= 0.1;
 };
 
