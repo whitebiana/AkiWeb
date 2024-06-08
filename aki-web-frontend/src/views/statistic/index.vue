@@ -9,6 +9,9 @@
 
 <script setup lang="ts">
 // import echarts from "@/utils/echarts";
+import { Service } from "@/api";
+import { Message } from "@arco-design/web-vue";
+import dayjs from "@/utils/dayjs";
 import * as echarts from "echarts";
 
 const calendar = ref();
@@ -23,13 +26,25 @@ function getVirtualData(year: string) {
   for (let time = date; time < end; time += dayTime) {
     data.push([
       echarts.time.format(time, "{yyyy}-{MM}-{dd}", false),
-      Math.floor(Math.random() * 2),
+      Math.floor(Math.random() * 40),
     ]);
   }
   return data;
 }
 
-onMounted(() => {
+let dailyData = [];
+
+const loadData = async () => {
+  const res = await Service.getDailyCountsForCurrentYear();
+  if (res.code === "00000") {
+    dailyData = res.data.map((item) => {
+      return [item.date, item.count];
+    });
+  } else Message.error(res.msg);
+};
+
+onMounted(async () => {
+  await loadData();
   // 基于准备好的dom，初始化echarts实例
   // 绘制图表
   echarts.init(calendar.value).setOption({
@@ -38,7 +53,11 @@ onMounted(() => {
       left: "center",
       text: "Overview",
     },
-    tooltip: {},
+    tooltip: {
+      valueFormatter(value: number | string, dataIndex: number) {
+        return value + "次复习，在" + dailyData[dataIndex][0];
+      },
+    },
     visualMap: {
       min: 0,
       // max: 30,
@@ -59,7 +78,7 @@ onMounted(() => {
       left: 30,
       right: 30,
       cellSize: ["auto", 16],
-      range: "2024",
+      range: dayjs().year(),
       itemStyle: {
         borderWidth: 2,
         borderColor: "#fff",
@@ -72,7 +91,7 @@ onMounted(() => {
     series: {
       type: "heatmap",
       coordinateSystem: "calendar",
-      data: getVirtualData("2024"),
+      data: dailyData,
     },
   });
 

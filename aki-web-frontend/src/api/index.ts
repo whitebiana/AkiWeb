@@ -14,5 +14,6 @@ export type { CardUpdateDTO } from './models/CardUpdateDTO';
 export type { DeckAddDTO } from './models/DeckAddDTO';
 export type { DeckEditDTO } from './models/DeckEditDTO';
 export type { R } from './models/R';
+export type { ReviewLogAddDTO } from './models/ReviewLogAddDTO';
 
 export { Service } from './services/Service';

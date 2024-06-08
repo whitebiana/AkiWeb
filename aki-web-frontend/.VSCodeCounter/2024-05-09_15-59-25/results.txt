@@ -1,0 +1,91 @@
+Date : 2024-05-09 15:59:25
+Directory : d:\dev\project\AkiWeb\aki-web-frontend
+Total : 41 files,  5662 codes, 182 comments, 265 blanks, all 6109 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          4 |      3,587 |          0 |          5 |      3,592 |
+| Vue                |          9 |      1,095 |          5 |        117 |      1,217 |
+| TypeScript         |         25 |        918 |        177 |        127 |      1,222 |
+| JSON with Comments |          1 |         29 |          0 |          1 |         30 |
+| Markdown           |          1 |         20 |          0 |         14 |         34 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                        |         41 |      5,662 |        182 |        265 |      6,109 |
+| . (Files)                                                                |         11 |      3,758 |         18 |         30 |      3,806 |
+| src                                                                      |         30 |      1,904 |        164 |        235 |      2,303 |
+| src (Files)                                                              |          2 |         34 |          2 |         12 |         48 |
+| src\api                                                                  |         15 |        640 |        151 |         95 |        886 |
+| src\api (Files)                                                          |          1 |         12 |          4 |          3 |         19 |
+| src\api\core                                                             |          6 |        435 |         33 |         77 |        545 |
+| src\api\models                                                           |          7 |         40 |         28 |         14 |         82 |
+| src\api\services                                                         |          1 |        153 |         86 |          1 |        240 |
+| src\components                                                           |          1 |         41 |          0 |          8 |         49 |
+| src\layout                                                               |          1 |         35 |          1 |          6 |         42 |
+| src\router                                                               |          1 |         44 |          0 |          3 |         47 |
+| src\stores                                                               |          1 |         21 |          0 |          4 |         25 |
+| src\types                                                                |          1 |         33 |          0 |          2 |         35 |
+| src\utils                                                                |          2 |         58 |          7 |          7 |         72 |
+| src\views                                                                |          6 |        998 |          3 |         98 |      1,099 |
+| src\views\add                                                            |          1 |        185 |          0 |         12 |        197 |
+| src\views\deck                                                           |          1 |        204 |          2 |         22 |        228 |
+| src\views\edit                                                           |          1 |        180 |          0 |         13 |        193 |
+| src\views\search                                                         |          1 |        128 |          0 |         13 |        141 |
+| src\views\statistic                                                      |          1 |         30 |          1 |          5 |         36 |
+| src\views\study                                                          |          1 |        271 |          0 |         33 |        304 |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                 | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| d:\dev\project\AkiWeb\aki-web-frontend\README.md                         | Markdown           |         20 |          0 |         14 |         34 |
+| d:\dev\project\AkiWeb\aki-web-frontend\auto-imports.d.ts                 | TypeScript         |         64 |          7 |          1 |         72 |
+| d:\dev\project\AkiWeb\aki-web-frontend\components.d.ts                   | TypeScript         |          9 |          5 |          2 |         16 |
+| d:\dev\project\AkiWeb\aki-web-frontend\env.d.ts                          | TypeScript         |          0 |          1 |          1 |          2 |
+| d:\dev\project\AkiWeb\aki-web-frontend\index.html                        | HTML               |         13 |          0 |          1 |         14 |
+| d:\dev\project\AkiWeb\aki-web-frontend\package-lock.json                 | JSON               |      3,515 |          0 |          1 |      3,516 |
+| d:\dev\project\AkiWeb\aki-web-frontend\package.json                      | JSON               |         40 |          0 |          1 |         41 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\App.vue                       | Vue                |         21 |          1 |          5 |         27 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\core\ApiError.ts          | TypeScript         |         18 |          4 |          4 |         26 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\core\ApiRequestOptions.ts | TypeScript         |         13 |          4 |          1 |         18 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\core\ApiResult.ts         | TypeScript         |          7 |          4 |          1 |         12 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\core\CancelablePromise.ts | TypeScript         |        108 |          4 |         20 |        132 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\core\OpenAPI.ts           | TypeScript         |         25 |          4 |          4 |         33 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\core\request.ts           | TypeScript         |        264 |         13 |         47 |        324 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\index.ts                  | TypeScript         |         12 |          4 |          3 |         19 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\CardAddDTO.ts      | TypeScript         |          6 |          4 |          2 |         12 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\CardEditDTO.ts     | TypeScript         |          7 |          4 |          2 |         13 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\CardQueryDTO.ts    | TypeScript         |          3 |          4 |          2 |          9 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\CardUpdateDTO.ts   | TypeScript         |         12 |          4 |          2 |         18 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\DeckAddDTO.ts      | TypeScript         |          3 |          4 |          2 |          9 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\DeckEditDTO.ts     | TypeScript         |          4 |          4 |          2 |         10 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\models\R.ts               | TypeScript         |          5 |          4 |          2 |         11 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\api\services\Service.ts       | TypeScript         |        153 |         86 |          1 |        240 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\components\NavBar.vue         | Vue                |         41 |          0 |          8 |         49 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\layout\BasicLayout.vue        | Vue                |         35 |          1 |          6 |         42 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\main.ts                       | TypeScript         |         13 |          1 |          7 |         21 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\router\index.ts               | TypeScript         |         44 |          0 |          3 |         47 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\stores\study.ts               | TypeScript         |         21 |          0 |          4 |         25 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\types\global.ts               | TypeScript         |         33 |          0 |          2 |         35 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\utils\dayjs.ts                | TypeScript         |          8 |          0 |          3 |         11 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\utils\echarts.ts              | TypeScript         |         50 |          7 |          4 |         61 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\views\add\index.vue           | Vue                |        185 |          0 |         12 |        197 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\views\deck\index.vue          | Vue                |        204 |          2 |         22 |        228 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\views\edit\index.vue          | Vue                |        180 |          0 |         13 |        193 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\views\search\index.vue        | Vue                |        128 |          0 |         13 |        141 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\views\statistic\index.vue     | Vue                |         30 |          1 |          5 |         36 |
+| d:\dev\project\AkiWeb\aki-web-frontend\src\views\study\index.vue         | Vue                |        271 |          0 |         33 |        304 |
+| d:\dev\project\AkiWeb\aki-web-frontend\tsconfig.app.json                 | JSON               |         14 |          0 |          1 |         15 |
+| d:\dev\project\AkiWeb\aki-web-frontend\tsconfig.json                     | JSON with Comments |         29 |          0 |          1 |         30 |
+| d:\dev\project\AkiWeb\aki-web-frontend\tsconfig.node.json                | JSON               |         18 |          0 |          2 |         20 |
+| d:\dev\project\AkiWeb\aki-web-frontend\vite.config.ts                    | TypeScript         |         36 |          5 |          5 |         46 |
+| Total                                                                    |                    |      5,662 |        182 |        265 |      6,109 |
++--------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

@@ -11,7 +11,7 @@
       multiple
       :max-tag-count="1"
       allow-clear
-      style="width: 180px"
+      style="width: 250px"
     >
       <template #label="{ data }">
         <span><icon-plus />{{ data?.label }}</span>

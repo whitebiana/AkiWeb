@@ -9,10 +9,27 @@ import type { CardUpdateDTO } from '../models/CardUpdateDTO';
 import type { DeckAddDTO } from '../models/DeckAddDTO';
 import type { DeckEditDTO } from '../models/DeckEditDTO';
 import type { R } from '../models/R';
+import type { ReviewLogAddDTO } from '../models/ReviewLogAddDTO';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class Service {
+    /**
+     * 记录错题日志
+     * @param requestBody
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static addReviewLog(
+        requestBody: ReviewLogAddDTO,
+    ): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/review_log/add',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
     /**
      * 文件上传
      * @param formData
@@ -196,6 +213,17 @@ export class Service {
             url: '/card/add',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * 获取日历热力图数据
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static getDailyCountsForCurrentYear(): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/statistic/daily',
         });
     }
     /**

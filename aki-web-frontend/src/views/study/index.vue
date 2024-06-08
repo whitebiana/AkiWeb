@@ -201,8 +201,9 @@ const showAnswer = () => {
 
 const sync = async (info: fsrsJs.SchedulingInfo) => {
   // 同步数据
+  console.log(info);
 
-  const res = await Service.updateCard({
+  const updateRes = await Service.updateCard({
     id: card.value.id,
     state: info.card.state,
     difficuty: info.card.difficulty,
@@ -215,7 +216,17 @@ const sync = async (info: fsrsJs.SchedulingInfo) => {
     lastReview: info.card.last_review.toISOString(),
   });
 
-  if (res.code !== "00000") Message.error(res.msg);
+  const logRes = await Service.addReviewLog({
+    cid: card.value.id,
+    rating: info.review_log.rating,
+    state: info.review_log.state,
+    scheduled_days: info.review_log.scheduled_days,
+    elapsed_days: info.review_log.elapsed_days,
+    review: info.review_log.review.toISOString(),
+  });
+
+  if (updateRes.code !== "00000") Message.error(updateRes.msg);
+  if (logRes.code !== "00000") Message.error(logRes.msg);
 };
 
 const repeat = (rating: number) => {

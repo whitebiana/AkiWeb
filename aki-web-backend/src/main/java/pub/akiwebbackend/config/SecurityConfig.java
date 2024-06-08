@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -32,7 +33,7 @@ public class SecurityConfig {
                                 "/assets/**", "/favicon.ico", "/images/**",
                                 // "/", "/index.html", "/error",
                                 // "/user/login", "/user/register", "/user/info", "/email/code/**"
-                                "/test/**", "/deck/**", "/card/**", "/file/upload"
+                                "/test/**", "/deck/**", "/card/**", "/review_log/**", "/file/upload", "/statistic/**"
                         ).permitAll()
                         .anyRequest().authenticated()
         );
@@ -47,10 +48,11 @@ public class SecurityConfig {
         // 1. http.csrf(Customizer.withDefaults());
         // 2. http.csrf(withDefaults()); 静态导入Customizer??装B
         // 3. http.csrf(csrf -> csrf.disable());
-        http.csrf((csrf) -> csrf.disable());
+        http.csrf(AbstractHttpConfigurer::disable);
 
         // 允许跨域
-        http.cors((cors) -> cors.disable());
+        http.cors(AbstractHttpConfigurer::disable);
+        //http.cors(cors -> cors.disable());
         //http.cors(Customizer.withDefaults());
 
         // 登出，使session失效，后面可以接deleteCookie

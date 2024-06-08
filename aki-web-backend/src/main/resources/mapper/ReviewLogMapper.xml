@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pub.akiwebbackend.mapper.ReviewLogMapper">
+
+    <resultMap id="BaseResultMap" type="pub.akiwebbackend.domain.entiry.ReviewLog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="cid" column="cid" jdbcType="BIGINT"/>
+            <result property="rating" column="rating" jdbcType="INTEGER"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
+            <result property="elapsed_days" column="elapsed_days" jdbcType="FLOAT"/>
+            <result property="scheduled_days" column="scheduled_days" jdbcType="INTEGER"/>
+            <result property="review" column="review" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="DateCountResultMap" type="pub.akiwebbackend.domain.vo.DateCountVO">
+        <result property="date" column="date"/>
+        <result property="count" column="count"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,cid,rating,
+        state,elapsed_days,scheduled_days,
+        review
+    </sql>
+
+    <select id="getDailyCountsForCurrentYear" resultMap="DateCountResultMap">
+        WITH RECURSIVE dates AS (
+        SELECT DATE(MAKEDATE(YEAR(CURDATE()), 1)) AS calendar_date
+        UNION ALL
+        SELECT DATE(DATE_ADD(calendar_date, INTERVAL 1 DAY))
+        FROM dates
+        WHERE calendar_date &lt; CONCAT(YEAR(CURDATE()), '-12-31')
+        )
+        SELECT
+        dates.calendar_date AS date,
+        IFNULL(t.count, 0) AS count
+        FROM dates
+        LEFT JOIN (
+        SELECT DATE(review) AS cdate, COUNT(*) AS count
+        FROM review_log
+        WHERE YEAR(review) = YEAR(CURDATE())
+        GROUP BY cdate
+        ) t ON t.cdate = dates.calendar_date
+    </select>
+
+</mapper>

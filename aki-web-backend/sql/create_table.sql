@@ -16,7 +16,7 @@ create table if not exists card
     tags            text comment '标签',
     state           integer not null default 0 comment '0=new, 1=learning, 2=review, 3=relearning',
     difficuty       float not null default 0 comment  '难度',
-    stability       float not null default 0 not null default 0 comment  '记忆稳定性',
+    stability       float not null default 0 comment  '记忆稳定性',
     reps            integer not null default 0 comment '复习次数',
     lapses          integer not null default 0,
     elapsed_days    float not null default 0 comment '过去的天数',
@@ -37,3 +37,15 @@ create table if not exists deck
     gmt_modified    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
     is_deleted      tinyint unsigned default 0 not null comment '是否删除'
 ) comment 'deck' collate = utf8mb4_unicode_ci;
+
+-- review_log table
+create table if not exists review_log
+(
+    id              bigint unsigned primary key auto_increment comment 'id',
+    cid             bigint unsigned not null comment 'card id',
+    rating          integer comment '1=Again, 2=Hard, 3=Good, 4=Easy',
+    state           integer not null default 0 comment '0=new, 1=learning, 2=review, 3=relearning',
+    elapsed_days    float not null default 0 comment '经过的天数',
+    scheduled_days  integer unsigned not null default 0 comment '复习间隔时间(天)',
+    review      datetime default CURRENT_TIMESTAMP not null comment '上一次复习的时间点'
+) comment 'review_log' collate = utf8mb4_unicode_ci;
