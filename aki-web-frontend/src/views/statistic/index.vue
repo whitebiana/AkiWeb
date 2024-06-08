@@ -32,21 +32,41 @@ function getVirtualData(year: string) {
   return data;
 }
 
-let dailyData = [];
+let dailyData;
+let stabilityData;
+let reviewData;
 
 const loadData = async () => {
-  const res = await Service.getDailyCountsForCurrentYear();
-  if (res.code === "00000") {
-    dailyData = res.data.map((item) => {
+  const res = await Promise.all([
+    Service.getDailyCountsForCurrentYear(),
+    Service.countByStability(),
+    Service.countByRating(),
+  ]);
+
+  if (res[0].code === "00000") {
+    dailyData = res[0].data.map((item) => {
       return [item.date, item.count];
     });
-  } else Message.error(res.msg);
+  } else Message.error(res[0].msg);
+
+  if (res[1].code === "00000") {
+    stabilityData = res[1].data;
+  } else Message.error(res[1].msg);
+
+  if (res[2].code === "00000") {
+    reviewData = res[2].data.reduce(
+      (prev, next) => next.map((item, i) => (prev[i] || []).concat(next[i])),
+      []
+    );
+    console.log(reviewData);
+  } else Message.error(res[2].msg);
 };
 
 onMounted(async () => {
   await loadData();
   // 基于准备好的dom，初始化echarts实例
   // 绘制图表
+
   echarts.init(calendar.value).setOption({
     title: {
       top: 30,
@@ -131,6 +151,18 @@ onMounted(async () => {
     ],
     series: [
       {
+        name: "熟知的错题量",
+        type: "bar",
+        stack: "asdf",
+        emphasis: {
+          focus: "series",
+        },
+        itemStyle: {
+          color: "#789461",
+        },
+        data: reviewData[3],
+      },
+      {
         name: "认识的错题量",
         type: "bar",
         stack: "asdf",
@@ -138,9 +170,9 @@ onMounted(async () => {
           focus: "series",
         },
         itemStyle: {
-          color: "#91cc75",
+          color: "#ABC270",
         },
-        data: [120, 132, 101, 134, 90, 230, 210, 300],
+        data: reviewData[2],
       },
       {
         name: "模糊的错题量",
@@ -150,9 +182,9 @@ onMounted(async () => {
           focus: "series",
         },
         itemStyle: {
-          color: "#fac858",
+          color: "#FEC868",
         },
-        data: [220, 182, 191, 234, 290, 330, 310, 250],
+        data: reviewData[1],
       },
       {
         name: "忘记的错题量",
@@ -162,9 +194,9 @@ onMounted(async () => {
           focus: "series",
         },
         itemStyle: {
-          color: "#ee6666",
+          color: "#FA7070",
         },
-        data: [150, 232, 201, 154, 190, 330, 410, 200],
+        data: reviewData[0],
       },
     ],
   });
@@ -229,7 +261,10 @@ onMounted(async () => {
         emphasis: {
           focus: "series",
         },
-        data: [120, 132, 101, 134, 90, 230, 210, 210],
+        itemStyle: {
+          color: "#789461",
+        },
+        data: stabilityData["ninety"],
       },
       {
         name: "记忆持久度>60天的错题量",
@@ -239,7 +274,10 @@ onMounted(async () => {
         emphasis: {
           focus: "series",
         },
-        data: [220, 182, 191, 234, 290, 330, 310, 310],
+        itemStyle: {
+          color: "#ABC270",
+        },
+        data: stabilityData.sisty,
       },
       {
         name: "记忆持久度>30天的错题量",
@@ -249,7 +287,10 @@ onMounted(async () => {
         emphasis: {
           focus: "series",
         },
-        data: [150, 232, 201, 154, 190, 330, 410, 410],
+        itemStyle: {
+          color: "#FEC868",
+        },
+        data: stabilityData.thirty,
       },
       {
         name: "记忆持久度>10天的错题量",
@@ -259,7 +300,10 @@ onMounted(async () => {
         emphasis: {
           focus: "series",
         },
-        data: [320, 332, 301, 334, 390, 330, 320, 320],
+        itemStyle: {
+          color: "#FDA769",
+        },
+        data: stabilityData.ten,
       },
       {
         name: "已加入记忆规划的全部错题",
@@ -273,7 +317,10 @@ onMounted(async () => {
         emphasis: {
           focus: "series",
         },
-        data: [820, 932, 901, 934, 1290, 1330, 1320, 1320],
+        itemStyle: {
+          color: "#FA7070",
+        },
+        data: stabilityData.total,
       },
     ],
   });

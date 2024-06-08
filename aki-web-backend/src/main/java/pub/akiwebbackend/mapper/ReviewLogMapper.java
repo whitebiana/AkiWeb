@@ -1,10 +1,11 @@
 package pub.akiwebbackend.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import pub.akiwebbackend.domain.entiry.ReviewLog;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import pub.akiwebbackend.domain.vo.DateCountVO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public interface ReviewLogMapper extends BaseMapper<ReviewLog> {
 
     List<DateCountVO> getDailyCountsForCurrentYear();
 
+    List<Long> countCardsByRatingAndDate(LocalDate date);
 }
 
 

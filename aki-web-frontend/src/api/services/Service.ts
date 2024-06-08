@@ -15,7 +15,7 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class Service {
     /**
-     * 记录错题日志
+     * 记录复习日志
      * @param requestBody
      * @returns R OK
      * @throws ApiError
@@ -213,6 +213,28 @@ export class Service {
             url: '/card/add',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * 获取错题记忆持久度数据
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static countByStability(): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/statistic/stability',
+        });
+    }
+    /**
+     * 获取错题复习数据
+     * @returns R OK
+     * @throws ApiError
+     */
+    public static countByRating(): CancelablePromise<R> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/statistic/rating',
         });
     }
     /**

@@ -26,4 +26,16 @@ public class StatisticController {
     public R getDailyCountsForCurrentYear() {
         return R.success(statisticService.getDailyCountsForCurrentYear());
     }
+
+    @Operation(summary = "获取错题记忆持久度数据")
+    @GetMapping("/stability")
+    public R countByStability() {
+        return R.success(statisticService.countByStability());
+    }
+
+    @Operation(summary = "获取错题复习数据")
+    @GetMapping("/rating")
+    public R countByRating() {
+        return R.success(statisticService.countByRating());
+    }
 }

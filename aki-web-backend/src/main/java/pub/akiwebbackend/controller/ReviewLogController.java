@@ -27,7 +27,7 @@ public class ReviewLogController {
     @Resource
     private ReviewLogService reviewLogService;
 
-    @Operation(summary = "记录错题日志")
+    @Operation(summary = "记录复习日志")
     @PostMapping("/add")
     public R addReviewLog(@RequestBody ReviewLogAddDTO reviewLogAddDTO) {
         // 构建对象

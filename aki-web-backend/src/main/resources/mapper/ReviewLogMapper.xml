@@ -33,6 +33,7 @@
         FROM dates
         WHERE calendar_date &lt; CONCAT(YEAR(CURDATE()), '-12-31')
         )
+
         SELECT
         dates.calendar_date AS date,
         IFNULL(t.count, 0) AS count
@@ -43,6 +44,16 @@
         WHERE YEAR(review) = YEAR(CURDATE())
         GROUP BY cdate
         ) t ON t.cdate = dates.calendar_date
+    </select>
+
+    <select id="countCardsByRatingAndDate" resultType="java.lang.Long">
+        with base as (select cid, rating, review, rank() over (partition by cid order by review desc) r from review_log)
+
+        select count from (select distinct base.rating, ifnull(t.count, 0) count from base
+        left join
+        (select cid, rating, count(*) as count from base where r = 1 and date(review) = #{date} group by rating order by rating) t
+        on base.rating = t.rating
+        order by rating) res
     </select>
 
 </mapper>
