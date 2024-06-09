@@ -31,11 +31,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/doc.html", "/swagger-ui/**", "/webjars/**", "/v3/**",
                                 "/assets/**", "/favicon.ico", "/images/**",
-                                // "/", "/index.html", "/error",
+                                "/", "/index.html", "/error",
                                 // "/user/login", "/user/register", "/user/info", "/email/code/**"
                                 "/test/**", "/deck/**", "/card/**", "/review_log/**", "/file/upload", "/statistic/**"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
         );
 
         // 两个过滤器，认证和授权

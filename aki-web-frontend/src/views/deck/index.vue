@@ -216,7 +216,7 @@ const study = (record: DeckVO) => {
   studyStore.current.reviewNum = record.reviewNum;
 
   localStorage.setItem("current", JSON.stringify(record));
-  router.push("/study/");
+  router.push("/study");
 };
 
 onMounted(async () => {

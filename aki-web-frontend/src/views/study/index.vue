@@ -3,7 +3,7 @@
     <a-row :wrap="false" align="center">
       <a-col flex="230px">
         <a-space>
-          <a-button type="outline" @click="router.push(`/edit/${card.id}/`)"
+          <a-button type="outline" @click="router.push(`/edit/${card.id}`)"
             >Edit</a-button
           >
           <a-button type="outline" v-if="false">Options</a-button>

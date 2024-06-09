@@ -54,11 +54,11 @@ const loadData = async () => {
   } else Message.error(res[1].msg);
 
   if (res[2].code === "00000") {
+    // 二维数组转置
     reviewData = res[2].data.reduce(
       (prev, next) => next.map((item, i) => (prev[i] || []).concat(next[i])),
       []
     );
-    console.log(reviewData);
   } else Message.error(res[2].msg);
 };
 

@@ -1,10 +1,10 @@
 server:
-  address: localhost
-  port: 8080
+  address: 0.0.0.0
+  port: 8877
 
 spring:
   application:
-    name: aki-web-backend
+    name: aki-web
   security:
     user:
       name: admin
@@ -19,8 +19,7 @@ spring:
   web:
     resources:
       # fix: 图片上传成功后访问404，无法回显
-      # TODO 在linux上要改路径
-      static-locations: file:D:/dev/project/AkiWeb/aki-web-backend/src/main/resources/static/
+      static-locations: /home/cym/app/aki-web/nginx/html/static/images
   #      - classpath:/META-INF/resources/
   #      - classpath:/resources/
   #      - classpath:/static/
@@ -30,13 +29,9 @@ spring:
 # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/aki
+    url: jdbc:mysql://db:3306/aki-web
     username: root
-    password: 123456
-
-#  jackson:
-#    date-format: yyyy-MM-dd HH:mm:ss
-#    time-zone: GMT+8
+    password: asdf
 
 # springdoc-openapi项目配置
 springdoc:

@@ -11,10 +11,10 @@
     <groupId>pub</groupId>
     <artifactId>aki-web-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>aki-web-backend</name>
-    <description>aki-web-backend</description>
+    <name>aki-web</name>
+    <description>aki-web</description>
     <properties>
-        <java.version>22</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>

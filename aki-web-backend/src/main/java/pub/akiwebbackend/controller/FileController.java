@@ -1,7 +1,6 @@
 package pub.akiwebbackend.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.net.url.UrlBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +31,7 @@ import java.util.UUID;
 @RequestMapping("/file")
 public class FileController {
 
-    @Value("${server.port}")
-    private int port;
+    private static final String IP = "8.134.205.216";
 
     /**
      * 文件上传
@@ -72,12 +69,14 @@ public class FileController {
         // 3. file保存/上传
         // 文件目录：根据业务、用户来划分
         // todo 打jar包之后还是这个路径吗？
-        String prePath = new ApplicationHome(this.getClass()).getDir().getParentFile().getParentFile().getAbsolutePath()
-                + File.separator + "src"
-                + File.separator + "main"
-                + File.separator + "resources"
-                + File.separator + "static"
-                + File.separator + "images";
+        // String prePath = new ApplicationHome(this.getClass()).getDir().getParentFile().getParentFile().getAbsolutePath()
+        //         + File.separator + "src"
+        //         + File.separator + "main"
+        //         + File.separator + "resources"
+        //         + File.separator + "static"
+        //         + File.separator + "images";
+
+        String prePath = File.separator + "app" + File.separator + "nginx" + File.separator + "html" + File.separator + "static" + File.separator + "images";
 
         String fullpath = prePath + File.separator + fileName;
 
@@ -91,9 +90,8 @@ public class FileController {
 
         String url = UrlBuilder.of()
                 .setScheme("http")
-                .setHost(NetUtil.getLocalhostStr())
-                .setPort(port)
-                .addPath("api")
+                .setHost(IP)
+                .addPath("static")
                 .addPath("images")
                 .addPath(fileName)
                 .build();

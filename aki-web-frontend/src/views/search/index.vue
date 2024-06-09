@@ -112,7 +112,7 @@ const search = async () => {
 };
 
 const edit = (id: string) => {
-  router.push(`/edit/${id}/`);
+  router.push(`/edit/${id}`);
 };
 
 const remove = (id: string) => {
