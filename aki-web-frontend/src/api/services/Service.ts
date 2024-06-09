@@ -123,7 +123,7 @@ export class Service {
      * @returns R OK
      * @throws ApiError
      */
-    public static getCard(
+    public static getCardVo(
         id: string,
     ): CancelablePromise<R> {
         return __request(OpenAPI, {

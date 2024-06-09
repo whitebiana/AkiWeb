@@ -199,7 +199,7 @@ const onUploadImg = async (files: File[], callback) => {
 
 const deckOptions = ref([]);
 
-onMounted(async () => {
+const loadData = async () => {
   const res = await Service.list();
   if (res.code === "00000") {
     const decks = res.data as Deck[];
@@ -207,6 +207,10 @@ onMounted(async () => {
       return deck.name;
     });
   } else Message.error(res.msg);
+};
+
+onMounted(async () => {
+  await loadData();
 });
 </script>
 

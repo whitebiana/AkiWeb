@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,9 +54,10 @@ public class FileController {
         long fileSize = file.getSize();
         String fileSuffix = FileUtil.getSuffix(file.getOriginalFilename());
 
-        if (fileSize > 1024 * 1024L) {
-            throw new BusinessException(ErrorCode.USER_ERROR_A0702, "文件大小不能超过1M");
+        if (fileSize > 1024 * 1024L * 100) {
+            throw new BusinessException(ErrorCode.USER_ERROR_A0702, "文件大小不能超过100M");
         }
+
         if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp").contains(fileSuffix)) {
             throw new BusinessException(ErrorCode.USER_ERROR_A0701, "文件类型错误");
         }

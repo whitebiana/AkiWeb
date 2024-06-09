@@ -1,7 +1,6 @@
 package pub.akiwebbackend.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +11,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import pub.akiwebbackend.common.ErrorCode;
 import pub.akiwebbackend.common.R;
-import pub.akiwebbackend.domain.dto.card.*;
+import pub.akiwebbackend.domain.dto.card.CardAddDTO;
+import pub.akiwebbackend.domain.dto.card.CardEditDTO;
+import pub.akiwebbackend.domain.dto.card.CardQueryDTO;
+import pub.akiwebbackend.domain.dto.card.CardUpdateDTO;
 import pub.akiwebbackend.domain.entiry.Card;
 import pub.akiwebbackend.domain.entiry.Deck;
 import pub.akiwebbackend.exception.BusinessException;
@@ -71,8 +73,8 @@ public class CardController {
 
     @PostMapping("/{id}")
     @Operation(summary = "查询一条错题")
-    public R getCard(@PathVariable String id){
-        return R.success(cardService.getById(id));
+    public R getCardVO(@PathVariable String id){
+        return R.success(cardService.getCardVO(cardService.getById(id)));
     }
 
     /**
@@ -177,9 +179,18 @@ public class CardController {
     @Operation(summary = "编辑错题数据")
     @PostMapping("/edit")
     public R editCard(@RequestBody CardEditDTO cardEditDTO){
+        // 如果错题本不存在
+        QueryWrapper<Deck> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", cardEditDTO.getDeckname());
+
+        Deck deck = deckService.getOne(wrapper);
+        if (deck == null) throw new BusinessException(ErrorCode.ERROR, "错题本不存在");
+
         Card card = new Card();
         BeanUtils.copyProperties(cardEditDTO,card);
+        card.setDid(deck.getId());
         card.setTags(new Gson().toJson(cardEditDTO.getTags()));
+
         boolean isUpdate = cardService.updateById(card);
         if (!isUpdate) throw new BusinessException(ErrorCode.SERVICE_ERROR_C0300);
         return R.success();

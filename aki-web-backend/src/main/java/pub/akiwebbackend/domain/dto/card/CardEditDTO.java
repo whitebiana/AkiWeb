@@ -1,13 +1,7 @@
 package pub.akiwebbackend.domain.dto.card;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
-import java.io.Serial;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,9 +16,9 @@ public class CardEditDTO {
     private String id;
 
     /**
-     * did 错题本的id
+     * deckname 错题本名称
      */
-    private String did;
+    private String deckname;
 
     /**
      * 正面

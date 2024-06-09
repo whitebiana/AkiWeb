@@ -33,3 +33,23 @@ export interface Card {
     gmtModified: string,
     isDeleted: number
 }
+
+export interface CardVO {
+    id: string,
+    deck: Deck
+    data: string,
+    ans: string,
+    tags: string[],
+    state: number,
+    difficuty: number,
+    stability: number,
+    reps: number,
+    lapses: number,
+    elapsedDays: number,
+    scheduledDays: number,
+    due: string,
+    lastReview: string,
+    gmtCreate: string,
+    gmtModified: string,
+    isDeleted: number
+}

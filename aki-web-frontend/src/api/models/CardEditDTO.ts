@@ -4,7 +4,7 @@
 /* eslint-disable */
 export type CardEditDTO = {
     id?: string;
-    did?: string;
+    deckname?: string;
     data?: string;
     ans?: string;
     tags?: Array<string>;

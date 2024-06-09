@@ -1,5 +1,15 @@
 <template>
   <a-form :model="form" auto-label-width @submit="handleSubmit">
+    <a-form-item field="deckname" label="错题本">
+      <a-select
+        v-model="form.deckname"
+        :style="{ width: '360px' }"
+        placeholder="Please select ..."
+        allow-clear
+        scrollbar
+        :options="deckOptions"
+      />
+    </a-form-item>
     <a-form-item field="data" label="题目">
       <MdEditor
         v-model="form.data"
@@ -96,7 +106,7 @@ import "@vavt/v3-extension/lib/asset/style.css";
 // import '@vavt/v3-extension/lib/asset/Emoji.css';
 import { CardAddDTO, type CardEditDTO, Service } from "@/api";
 import { Message, Notification, SelectOptionGroup } from "@arco-design/web-vue";
-import { Card, Deck } from "@/types/global";
+import { Card, CardVO, Deck } from "@/types/global";
 import defaultTags from "@/config/tags.json";
 
 config({
@@ -158,6 +168,7 @@ const route = useRoute();
 
 const form: CardEditDTO = reactive({
   id: "",
+  deckname: "",
   data: "",
   ans: "",
   tags: [],
@@ -189,16 +200,29 @@ const onUploadImg = async (files: File[], callback) => {
   callback(res);
 };
 
+const deckOptions = ref([]);
+
 const loadData = async () => {
-  const res = await Service.getCard(route.params.cid as string);
-  if (res.code === "00000") {
-    let card = res.data as Card;
+  const res = await Promise.all([
+    Service.getCardVo(route.params.cid as string),
+    Service.list(),
+  ]);
+
+  if (res[0].code === "00000") {
+    let card = res[0].data as CardVO;
     form.id = card.id;
     form.ans = card.ans;
     form.data = card.data;
-    form.did = card.did;
-    form.tags = JSON.parse(card.tags);
-  } else Notification.error(res.msg);
+    form.deckname = card.deck.name;
+    form.tags = card.tags;
+  } else Notification.error(res[0].msg);
+
+  if (res[1].code === "00000") {
+    const decks = res[1].data as Deck[];
+    deckOptions.value = decks.map((deck) => {
+      return deck.name;
+    });
+  } else Message.error(res[1].msg);
 };
 
 onMounted(async () => {

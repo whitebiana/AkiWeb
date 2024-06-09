@@ -9,9 +9,11 @@ services:
       - 8877:8877
     volumes:
       - ./nginx/html/static/images:/app/nginx/html/static/images
+      - ./app.jar:/app/app.jar:z
     depends_on:
       - db
       - nginx
+    privileged: true
   db:
     image: mysql:8.0
     ports:
@@ -26,7 +28,7 @@ services:
       MYSQL_DATABASE: aki-web
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: asdf
-      TZ: Asia/Shanghai
+      # TZ: Asia/Shanghai
   nginx:
     image: nginx:latest
     container_name: aki-web-nginx
