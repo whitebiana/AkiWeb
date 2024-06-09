@@ -47,7 +47,7 @@
     </select>
 
     <select id="countCardsByRatingAndDate" resultType="java.lang.Long">
-        with base as (select cid, rating, review, rank() over (partition by cid order by review desc) r from review_log)
+        with base as (select cid, rating, review, rank() over (partition by cid order by review asc) r from review_log)
 
         select count from (select distinct base.rating, ifnull(t.count, 0) count from base
         left join
