@@ -28,7 +28,7 @@ services:
       MYSQL_DATABASE: aki-web
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: asdf
-      # TZ: Asia/Shanghai
+      TZ: Asia/Shanghai
   nginx:
     image: nginx:latest
     container_name: aki-web-nginx
