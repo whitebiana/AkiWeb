@@ -143,6 +143,10 @@ const handleTagClose = async (index: number) => {
   form.tags.splice(index, 1);
   // await nextTick();
 };
+
+onMounted(() => {
+  search();
+});
 </script>
 
 <style lang="less" scoped>

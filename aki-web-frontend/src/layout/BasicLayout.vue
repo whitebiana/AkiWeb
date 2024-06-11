@@ -6,12 +6,15 @@
           <NavBar />
         </a-layout-header>
       </a-affix>
-      <a-layout-content class="content">
-        <router-view v-slot="{ Component }">
-          <!-- <transition> -->
-          <component :is="Component" />
-        </router-view>
-      </a-layout-content>
+
+      <a-scrollbar style="height: calc(100% - 59px); overflow: auto">
+        <a-layout-content class="content">
+          <router-view v-slot="{ Component }">
+            <!-- <transition> -->
+            <component :is="Component" />
+          </router-view>
+        </a-layout-content>
+      </a-scrollbar>
     </a-layout>
   </div>
 </template>
@@ -33,6 +36,7 @@
 
     .content {
       width: 82%;
+      height: calc(100vh - 59px);
       padding: 24px;
       margin: 0 auto;
     }
