@@ -39,7 +39,7 @@
         }}</a-typography-text>
       </a-col>
     </a-row>
-    <div ref="contentRef">
+    <div ref="contentRef" class="content">
       <MdPreview
         editorId="data"
         :modelValue="card.data"
@@ -297,8 +297,14 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.answer {
-  padding-bottom: 50px;
+.content {
+  margin-bottom: 66px;
+  .md-editor-previewOnly {
+    // padding-bottom: 66px;
+  }
+  .answer {
+    // margin-bottom: 66px;
+  }
 }
 
 .operation {

@@ -20,7 +20,7 @@
 
 <style scoped lang="less">
 .container {
-  height: 100vh;
+  height: 100%;
 
   .layout {
     height: 100%;
